@@ -35,9 +35,15 @@
 ******************************************************************************************************************/
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.crypto.dsig.spec.XPathType.Filter;
 
 public class FilterFramework extends Thread
 {
+	//Input types
+	private HashSet<Integer> convertedCodes= new HashSet<Integer>();
 	// Define filter input and output ports
 
 	private PipedInputStream InputReadPort = new PipedInputStream();
@@ -63,7 +69,18 @@ public class FilterFramework extends Thread
 	* Exceptions: none
 	*
 	****************************************************************************/
-
+	public FilterFramework(){
+		setInputType(convertedCodes);
+	}
+	private void setInputType(HashSet<Integer> convertedCodes){
+		
+		this.convertedCodes=convertedCodes;
+	}
+	private void validateConvertedCodes(HashSet<Integer> Codes) throws IOException{
+		if (!(Codes.equals(this.convertedCodes))){
+			throw new IOException();
+		}
+	}
 	class EndOfStreamException extends Exception {
 
                 static final long serialVersionUID = 0; // the version for streaming
