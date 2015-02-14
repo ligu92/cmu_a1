@@ -152,7 +152,7 @@ public class MergeFilterA extends FilterFramework {
 				
 				
 				for (i = 0; i < 4; i++) {
-					WriteFilterOutputPort(id_bytes[i]);
+					WriteFilterOutputPort(id_bytes2[i]);
 					byteswritten++;
 				}
 				for (i = 0; i < 8; i++) {
