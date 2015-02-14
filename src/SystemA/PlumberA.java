@@ -12,6 +12,8 @@ public class PlumberA {
 
 			SourceFilterA Filter1 = new SourceFilterA();
 			SplitterFilterA Filter2 = new SplitterFilterA(new HashSet<Integer>(Arrays.asList(0,1,2,3,4,5)));
+			AltConverterA alt = new AltConverterA(new HashSet<Integer>(Arrays.asList(0,2)));
+			TempConverterA temp = new TempConverterA(new HashSet<Integer>(Arrays.asList(0,4)));
 			SinkFilterA Filter3 = new SinkFilterA();
 
 			/****************************************************************************
