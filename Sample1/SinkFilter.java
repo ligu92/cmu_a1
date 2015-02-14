@@ -24,6 +24,7 @@
 *
 ******************************************************************************************************************/
 import java.util.*;						// This class is used to interpret time words
+import java.io.Writer;
 import java.text.SimpleDateFormat;		// This class is used to format and write time in a string format.
 
 public class SinkFilter extends FilterFramework
@@ -37,7 +38,7 @@ public class SinkFilter extends FilterFramework
 		*************************************************************************************/
 
 		Calendar TimeStamp = Calendar.getInstance();
-		SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy MM dd::hh:mm:ss:SSS");
+		SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy::dd:hh:mm:ss");
 
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
@@ -48,6 +49,15 @@ public class SinkFilter extends FilterFramework
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
+		
+		String outFileName = "OutputA.dat"; // This is the filename of the output
+		double altitude = null;
+		DecimalFormat altFormatter = new DecimalFormat("000000.00000");
+		double temperature = null;
+		DecimalFormat tempFormatter = new DecimalFormat("000.00000");
+		
+		Writer writer = null;
+		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFileName)));
 
 		/*************************************************************
 		*	First we announce to the world that we are alive...
@@ -125,6 +135,8 @@ public class SinkFilter extends FilterFramework
 				if ( id == 0 )
 				{
 					TimeStamp.setTimeInMillis(measurement);
+					//Write the timestamp in the human-readable format
+					writer.write(TimeStampFormat.format(TimeStamp.getTime()) + "\t");
 
 				} // if
 
@@ -138,13 +150,26 @@ public class SinkFilter extends FilterFramework
 				// in.
 				****************************************************************************/
 
-				if ( id == 3 )
+				else if (id == 2)
 				{
-					System.out.print( TimeStampFormat.format(TimeStamp.getTime()) + " ID = " + id + " " + Double.longBitsToDouble(measurement) );
+					altitude = Double.longBitsToDouble(measurement);
+					 
+					//System.out.print( TimeStampFormat.format(TimeStamp.getTime()) + " ID = " + id + " " + Double.longBitsToDouble(measurement) );
 
-				} // if
+				} // else if
+				
+				else if (id == 4) {
+					temperature = Double.longBitsToDouble(measurement);
+				}
 
-				System.out.print( "\n" );
+				if (temperature != null) {
+					writer.write(tempFormatter.format(temperature) + "\t");
+				}
+				if (altitude != null) {
+					writer.write(altFormatter.format(altitude));
+				}
+				writer.write("\n");
+				//System.out.print( "\n" );
 
 			} // try
 
@@ -158,6 +183,7 @@ public class SinkFilter extends FilterFramework
 			{
 				ClosePorts();
 				System.out.print( "\n" + this.getName() + "::Sink Exiting; bytes read: " + bytesread );
+				writer.close();
 				break;
 
 			} // catch

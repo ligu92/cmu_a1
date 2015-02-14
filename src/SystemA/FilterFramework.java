@@ -46,8 +46,8 @@ public class FilterFramework extends Thread
 {
 	//Input types
 	private HashSet<Integer> convertedCodes= new HashSet<Integer>();
+	
 	// Define filter input and output ports
-
 	private PipedInputStream InputReadPort = new PipedInputStream();
 	private PipedOutputStream OutputWritePort = new PipedOutputStream();
 
@@ -57,6 +57,22 @@ public class FilterFramework extends Thread
 	// output pipe and will send no more data.
 
 	private FilterFramework InputFilter;
+	
+	public FilterFramework() {
+		
+	}
+	public FilterFramework(HashSet<Integer> convertedCodes){
+		setInputType(convertedCodes);
+	}
+	protected void setInputType(HashSet<Integer> convertedCodes){
+		
+		this.convertedCodes=convertedCodes;
+	}
+	protected void validateConvertedCodes(HashSet<Integer> Codes) throws IOException{
+		if (!(Codes.equals(this.convertedCodes))){
+			throw new IOException();
+		}
+	}
 
 	/***************************************************************************
 	* InnerClass:: EndOfStreamExeception
@@ -71,18 +87,7 @@ public class FilterFramework extends Thread
 	* Exceptions: none
 	*
 	****************************************************************************/
-	public FilterFramework(){
-		setInputType(convertedCodes);
-	}
-	private void setInputType(HashSet<Integer> convertedCodes){
-		
-		this.convertedCodes=convertedCodes;
-	}
-	private void validateConvertedCodes(HashSet<Integer> Codes) throws IOException{
-		if (!(Codes.equals(this.convertedCodes))){
-			throw new IOException();
-		}
-	}
+	
 	class EndOfStreamException extends Exception {
 
                 static final long serialVersionUID = 0; // the version for streaming
