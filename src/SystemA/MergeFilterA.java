@@ -1,5 +1,6 @@
 package SystemA;
 
+import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.text.SimpleDateFormat;
@@ -263,7 +264,8 @@ public class MergeFilterA extends FilterFramework {
 
 	} // ClosePorts2
 	
-	void Connect( AltConverterA Filter ) {
+	void Connect( AltConverterA Filter, HashSet<Integer> codes) throws IOException {
+		Filter.validateConvertedCodes(codes);
 		try
 		{
 			// Connect this filter's input to the upstream pipe's output stream
@@ -281,7 +283,8 @@ public class MergeFilterA extends FilterFramework {
 
 	} // Connect
 	
-	void Connect( TempConverterA Filter ) {
+	void Connect( TempConverterA Filter, HashSet<Integer> codes ) throws IOException {
+		Filter.validateConvertedCodes(codes);
 		try
 		{
 			// Connect this filter's input to the upstream pipe's output stream

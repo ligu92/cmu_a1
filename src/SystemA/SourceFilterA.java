@@ -4,8 +4,13 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class SourceFilterA extends FilterFramework {
+	public SourceFilterA(HashSet<Integer> codesSet) {
+		setInputType(codesSet);
+	}
+	
 	public void run()
     {
 

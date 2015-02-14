@@ -1,5 +1,6 @@
 package SystemA;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -142,7 +143,8 @@ public class TempConverterA extends FilterFramework {
 
     } // run
 	
-	void Connect( SplitterFilterA Filter ) {
+	void Connect( SplitterFilterA Filter, HashSet<Integer> codes ) throws IOException {
+		Filter.validateConvertedCodes(codes);
 		try
 		{
 			// Connect this filter's input to the upstream pipe's output stream

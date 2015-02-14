@@ -61,12 +61,14 @@ public class FilterFramework extends Thread
 	public FilterFramework() {
 		
 	}
-	public FilterFramework(HashSet<Integer> convertedCodes){
-		setInputType(convertedCodes);
+	public FilterFramework(HashSet<Integer> Codes){
+		//this.convertedCodes=Codes;
+		setInputType(Codes);
 	}
-	protected void setInputType(HashSet<Integer> convertedCodes){
-		
-		this.convertedCodes=convertedCodes;
+	protected void setInputType(HashSet<Integer> Codes){
+		for (int i : Codes) {
+			this.convertedCodes.add(i);
+		}
 	}
 	protected void validateConvertedCodes(HashSet<Integer> Codes) throws IOException{
 		if (!(Codes.equals(this.convertedCodes))){
@@ -111,11 +113,13 @@ public class FilterFramework extends Thread
 	* Returns: void
 	*
 	* Exceptions: IOException
+	 * @throws IOException 
 	*
 	****************************************************************************/
 
-	void Connect( FilterFramework Filter )
+	void Connect( FilterFramework Filter, HashSet<Integer> codes ) throws IOException
 	{
+		Filter.validateConvertedCodes(codes);
 		try
 		{
 			// Connect this filter's input to the upstream pipe's output stream
