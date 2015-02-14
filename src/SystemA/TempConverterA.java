@@ -102,8 +102,8 @@ public class TempConverterA extends FilterFramework {
 						measurement = measurement << 8;				// to make room for the next byte we append to the
 																	// measurement
 					} // if
+					data_bytes[i] = databyte;
 					bytesread++;									// Increment the byte count
-
 				} // if
 				
 				if ( id == 0 ) {

@@ -90,8 +90,7 @@ public class AltConverterA extends FilterFramework {
 
 				measurement = 0;
 				data_bytes = new byte[8];
-				for (i=0; i<MeasurementLength; i++ )
-				{
+				for (i=0; i<MeasurementLength; i++ ) {
 					databyte = ReadFilterInputPort();
 					measurement = measurement | (databyte & 0xFF);	// We append the byte on to measurement...
 
@@ -100,9 +99,9 @@ public class AltConverterA extends FilterFramework {
 						measurement = measurement << 8;				// to make room for the next byte we append to the
 																	// measurement
 					} // if
+					data_bytes[i] = databyte;
 					bytesread++;									// Increment the byte count
-
-				} // if
+				} // for
 
 				if ( id == 0 ) {
 					for (i = 0; i < 4; i++) {
@@ -114,7 +113,7 @@ public class AltConverterA extends FilterFramework {
 						byteswritten++;
 					}
 				} // if
-				else if (id == 2) {
+				if (id == 2) {
 					altitude = Double.longBitsToDouble(measurement);
 					altitude *= 0.3048;
 					ByteBuffer.wrap(data_bytes).putDouble(altitude);

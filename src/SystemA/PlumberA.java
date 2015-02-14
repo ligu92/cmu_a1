@@ -30,7 +30,6 @@ public class PlumberA {
 			temp.Connect(split);
 			split.Connect(source);
 			
-
 			/****************************************************************************
 			* Here we start the filters up. All-in-all,... its really kind of boring.
 			****************************************************************************/
