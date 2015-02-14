@@ -121,7 +121,7 @@ public class FilterFramework extends Thread
 			// Connect this filter's input to the upstream pipe's output stream
 
 			InputReadPort.connect( Filter.OutputWritePort );
-			InputFilter = Filter;
+			setInputFilter(Filter);
 
 		} // try
 
@@ -264,7 +264,7 @@ public class FilterFramework extends Thread
 	*
 	****************************************************************************/
 
-	private boolean EndOfInputStream()
+	protected boolean EndOfInputStream()
 	{
 		if (InputFilter.isAlive())
 		{
@@ -329,5 +329,18 @@ public class FilterFramework extends Thread
 		// see the example applications provided for more details.
 
 	} // run
+	public PipedInputStream getInputReadPort() {
+		return InputReadPort;
+	}
+	public FilterFramework getInputFilter() {
+		return InputFilter;
+	}
+	public void setInputFilter(FilterFramework inputFilter) {
+		InputFilter = inputFilter;
+	}
+	public PipedOutputStream getOutputWritePort() {
+		return OutputWritePort;
+	}
+
 
 } // FilterFramework class

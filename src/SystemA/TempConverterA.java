@@ -1,8 +1,7 @@
 package SystemA;
 
-import java.io.PipedOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 
 /******************************************************************************************************************
@@ -25,14 +24,13 @@ import java.util.HashSet;
 *
 ******************************************************************************************************************/
 
-public class SplitterFilterA extends FilterFramework {
-	private PipedOutputStream OutputWritePort2 = new PipedOutputStream();
-	
-	public SplitterFilterA(HashSet<Integer> codesSet) {
+public class TempConverterA extends FilterFramework {
+	public TempConverterA(HashSet<Integer> codesSet) {
 		setInputType(codesSet);
 	}
 
 	public void run() {
+
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
 
@@ -45,7 +43,10 @@ public class SplitterFilterA extends FilterFramework {
 		
 		byte[] id_bytes;
 		byte[] data_bytes;
-
+		
+		//When we read the altitude, we save it
+		//into variable so we can convert as specified.
+		double temperature = 0.0;
 		int byteswritten = 0;				// Number of bytes written to the stream.
 
 		// Next we write a message to the terminal to let the world know we are alive...
@@ -57,7 +58,7 @@ public class SplitterFilterA extends FilterFramework {
 			*	Here we read a byte and write a byte
 			*************************************************************/
 
-			try {				
+			try {
 				id = 0;
 				id_bytes = new byte[4];
 				for (i=0; i<IdLength; i++ ){
@@ -99,26 +100,24 @@ public class SplitterFilterA extends FilterFramework {
 						measurement = measurement << 8;				// to make room for the next byte we append to the
 																	// measurement
 					} // if
-					data_bytes[i] = databyte;
 					bytesread++;									// Increment the byte count
 
 				} // if
 
 				if ( id == 0 ) {
-					//TimeStamp.setTimeInMillis(measurement);
-					//Write the timestamp in the human-readable format
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
-						WriteFilterOutputPort2(id_bytes[i]);
-						byteswritten+=2;
+						byteswritten++;
 					}
 					for (i = 0; i < 8; i++) {
 						WriteFilterOutputPort(data_bytes[i]);
-						WriteFilterOutputPort2(data_bytes[i]);
-						byteswritten+=2;
+						byteswritten++;
 					}
 				} // if
-				else if (id == 2) {
+				else if (id == 4) {
+					temperature = Double.longBitsToDouble(measurement);
+					temperature = (temperature - 32) / 1.8;
+					ByteBuffer.wrap(data_bytes).putDouble(temperature);
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
 						byteswritten++;
@@ -128,21 +127,10 @@ public class SplitterFilterA extends FilterFramework {
 						byteswritten++;
 					}			 
 				} // else if
-				else if (id == 4) {
-					for (i = 0; i < 4; i++) {
-						WriteFilterOutputPort2(id_bytes[i]);
-						byteswritten++;
-					}
-					for (i = 0; i < 8; i++) {
-						WriteFilterOutputPort2(data_bytes[i]);
-						byteswritten++;
-					}
-				} // else if
 			} // try
 
 			catch (EndOfStreamException e) {
 				ClosePorts();
-				ClosePorts2();
 				System.out.print( "\n" + this.getName() + "::Middle Exiting; bytes read: " + bytesread + " bytes written: " + byteswritten );
 				break;
 
@@ -150,39 +138,24 @@ public class SplitterFilterA extends FilterFramework {
 
 		} // while
 
-	} // run
+    } // run
 	
-	void WriteFilterOutputPort2(byte datum)
-	{
+	void Connect( SplitterFilterA Filter ) {
 		try
 		{
-            OutputWritePort2.write((int) datum );
-		   	OutputWritePort2.flush();
+			// Connect this filter's input to the upstream pipe's output stream
+
+			getInputReadPort().connect( Filter.getOutputWritePort2() );
+			setInputFilter(Filter);
 
 		} // try
 
 		catch( Exception Error )
 		{
-			System.out.println("\n" + this.getName() + " Pipe write error::" + Error );
+			System.out.println( "\n" + this.getName() + " FilterFramework error connecting::"+ Error );
 
 		} // catch
 
-		return;
+	} // Connect
 
-	} // WriteFilterPort2
-	
-	void ClosePorts2() {
-		try {
-			OutputWritePort2.close();
-		}
-		catch( Exception Error ) {
-			System.out.println( "\n" + this.getName() + " ClosePorts error::" + Error );
-
-		} // catch
-
-	} // ClosePorts
-
-	public PipedOutputStream getOutputWritePort2() {
-		return OutputWritePort2;
-	}
 } // MiddleFilter
