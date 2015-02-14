@@ -106,7 +106,6 @@ public class SplitterFilterA extends FilterFramework {
 
 				if ( id == 0 ) {
 					//TimeStamp.setTimeInMillis(measurement);
-					//Write the timestamp in the human-readable format
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
 						WriteFilterOutputPort2(id_bytes[i]);

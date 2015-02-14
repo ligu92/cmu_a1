@@ -2,6 +2,8 @@ package SystemA;
 
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashSet;
 
 /******************************************************************************************************************
@@ -103,7 +105,7 @@ public class TempConverterA extends FilterFramework {
 					bytesread++;									// Increment the byte count
 
 				} // if
-
+				
 				if ( id == 0 ) {
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);

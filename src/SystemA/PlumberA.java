@@ -29,6 +29,7 @@ public class PlumberA {
 			alt.Connect(split);
 			temp.Connect(split);
 			split.Connect(source);
+			
 
 			/****************************************************************************
 			* Here we start the filters up. All-in-all,... its really kind of boring.
@@ -39,6 +40,7 @@ public class PlumberA {
 			alt.start();
 			temp.start();
 			sink.start();
+			merge.start();
 
 	   } // main
 
