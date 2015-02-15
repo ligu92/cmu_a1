@@ -6,13 +6,26 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashSet;
 
+/**
+ * This class is the Source Filter for SystemA. It does not do much besides
+ * read the data from the input file one byte at a time and then send it downstream.
+ * @author ligu, Tony
+ *
+ */
 public class SourceFilterA extends FilterFramework {
+	/**
+	 * Overload the superclass constructor.
+	 * @param codesSet
+	 */
 	public SourceFilterA(HashSet<Integer> codesSet) {
 		setInputType(codesSet);
 	}
 	
-	public void run()
-    {
+	/**
+	 * This method is the body of the filter. It runs the actual filter
+	 * operation.
+	 */
+	public void run() {
 
 		String fileName = "DataSets/FlightData.dat";	// Input data file.
 		int bytesread = 0;					// Number of bytes read from the input file.
@@ -20,8 +33,7 @@ public class SourceFilterA extends FilterFramework {
 		DataInputStream in = null;			// File stream reference.
 		byte databyte = 0;					// The byte of data read from the file
 
-		try
-		{
+		try {
 			/***********************************************************************************
 			*	Here we open the file and write a message to the terminal.
 			***********************************************************************************/

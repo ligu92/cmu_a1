@@ -1,16 +1,22 @@
 package SystemA;
 
-
-
 import java.util.*;						// This class is used to interpret time words
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;		// This class is used to format and write time in a string format.
 
+/**
+ * This class is the Sink Filter for SystemA. It is the final step in the
+ * SystemA process. It takes the upstream data and write them to the outputfile.
+ * @author ligu, Tony
+ *
+ */
 public class SinkFilterA extends FilterFramework {
 
-	public void run()
-    {
+	/**
+	 * This method runs the sink filter.
+	 */
+	public void run() {
 		/************************************************************************************
 		*	TimeStamp is used to compute time using java.util's Calendar class.
 		* 	TimeStampFormat is used to format the time value so that it can be easily printed
@@ -55,19 +61,15 @@ public class SinkFilterA extends FilterFramework {
 
 		System.out.print( "\n" + this.getName() + "::Sink Reading ");
 
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				/***************************************************************************
 				// We know that the first data coming to this filter is going to be an ID and
 				// that it is IdLength long. So we first decommutate the ID bytes.
 				****************************************************************************/
 
 				id = 0;
-
-				for (i=0; i<IdLength; i++ )
-				{
+				for (i=0; i<IdLength; i++ ) {
 					databyte = ReadFilterInputPort();	// This is where we read the byte from the stream...
 
 					id = id | (databyte & 0xFF);		// We append the byte on to ID...
@@ -85,7 +87,7 @@ public class SinkFilterA extends FilterFramework {
 				/****************************************************************************
 				// Here we read measurements. All measurement data is read as a stream of bytes
 				// and stored as a long value. This permits us to do bitwise manipulation that
-				// is neccesary to convert the byte stream into data words. Note that bitwise
+				// is necessary to convert the byte stream into data words. Note that bitwise
 				// manipulation is not permitted on any kind of floating point types in Java.
 				// If the id = 0 then this is a time value and is therefore a long value - no
 				// problem. However, if the id is something other than 0, then the bits in the
@@ -95,7 +97,6 @@ public class SinkFilterA extends FilterFramework {
 				*****************************************************************************/
 
 				measurement = 0;
-
 				for (i=0; i<MeasurementLength; i++ )
 				{
 					databyte = ReadFilterInputPort();
@@ -126,33 +127,33 @@ public class SinkFilterA extends FilterFramework {
 				{
 					TimeStamp.setTimeInMillis(measurement);
 					//Write the timestamp in the human-readable format
-					writer.write("\n" + TimeStampFormat.format(TimeStamp.getTime()) + "\t");
+					writer.write(TimeStampFormat.format(TimeStamp.getTime()) + "\t");
 
 				} // if
 
 				/****************************************************************************
-				// Here we pick up a measurement (ID = 3 in this case), but you can pick up
-				// any measurement you want to. All measurements in the stream are
-				// decommutated by this class. Note that all data measurements are double types
-				// This illustrates how to convert the bits read from the stream into a double
-				// type. Its pretty simple using Double.longBitsToDouble(long value). So here
-				// we print the time stamp and the data associated with the ID we are interested
-				// in.
+				* Here we write data to the output. If the id is 2, then we have
+				* an altitude, so we format it according to the writeup and
+				* write it to the current line, along with a newline char.
 				****************************************************************************/
-
 				else if (id == 2)
 				{
 					altitude = Double.longBitsToDouble(measurement);					
-					writer.write(altFormatter.format(altitude) + "\t");
+					writer.write(altFormatter.format(altitude) + "\n");
 					altitude = 0.0;
 					 
 				} // else if
 				
+				/****************************************************************************
+				* Here we write data to the output. If the id is 4, then we have
+				* an temperature, so we format it according to the writeup and
+				* write it to the current line, along with a tab char.
+				****************************************************************************/
 				else if (id == 4) {
 					temperature = Double.longBitsToDouble(measurement);
 					writer.write(tempFormatter.format(temperature) + "\t");
 					temperature = 0.0;
-				}
+				} // else if
 
 			} // try
 
