@@ -2,40 +2,33 @@ package SystemA;
 
 import java.io.IOException;
 import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashSet;
 
-import SystemA.FilterFramework.EndOfStreamException;
-
-/******************************************************************************************************************
-* File:MiddleFilter.java
-* Course: 17655
-* Project: Assignment 1
-* Copyright: Copyright (c) 2003 Carnegie Mellon University
-* Versions:
-*	1.0 November 2008 - Sample Pipe and Filter code (ajl).
-*
-* Description:
-*
-* This class serves as an example for how to use the FilterRemplate to create a standard filter. This particular
-* example is a simple "pass-through" filter that reads data from the filter's input port and writes data out the
-* filter's output port.
-*
-* Parameters: 		None
-*
-* Internal Methods: None
-*
-******************************************************************************************************************/
-
+/**
+ * This method takes input from both the altitude converter and the
+ * temperature converter, merging the inputstreams for the sink filter to
+ * write to output.
+ * This class is special in that it has TWO inputports, one in the superclass
+ * and one as a private member of the subclass.
+ * @author ligu
+ *
+ */
 public class MergeFilterA extends FilterFramework {
+	//The second inputport, this one takes data from the
+	//Temperature converter
 	private PipedInputStream InputReadPort2 = new PipedInputStream();
 	
+	/**
+	 * Overload the superclass constructor
+	 * @param codesSet
+	 */
 	public MergeFilterA(HashSet<Integer> codesSet) {
 		setInputType(codesSet);
 	}
 
+	/**
+	 * Runs the filter
+	 */
 	public void run() {
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
@@ -43,12 +36,24 @@ public class MergeFilterA extends FilterFramework {
 		byte databyte = 0;				// This is the data byte read from the stream
 		int bytesread = 0;				// This is the number of bytes read from the stream
 
-		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
+		/**
+		 * Two measurements are taken concurrently, measurement2 is from inputport2,
+		 * which would be the temperature data.
+		 * measurement is from inputport1, which would be the altitude data.
+		 */
+		long measurement;				
 		long measurement2;
-		int id;							// This is the measurement id
+		/**
+		 * Two ID's are stored in similar fashion.
+		 */
+		int id;						
 		int id2;
+		
 		int i;							// This is a loop counter
 		
+		/**
+		 * Just as we need two byte arrays before, we need four this time.
+		 */
 		byte[] id_bytes;
 		byte[] data_bytes;
 		byte[] id_bytes2;
@@ -57,11 +62,13 @@ public class MergeFilterA extends FilterFramework {
 		int byteswritten = 0;				// Number of bytes written to the stream.
 
 		// Next we write a message to the terminal to let the world know we are alive...
-
 		System.out.print( "\n" + this.getName() + "::Middle Reading ");
 
 		while (true) {
-			try {				
+			try {	
+				/**
+				 * Read four bytes of ID from the second input port
+				 */
 				id2 = 0;
 				id_bytes2 = new byte[4];
 				for (i=0; i<IdLength; i++ ){
@@ -79,6 +86,9 @@ public class MergeFilterA extends FilterFramework {
 
 				} // for
 				
+				/**
+				 * Read four bytes of ID from the first input port
+				 */
 				id = 0;
 				id_bytes = new byte[4];
 				for (i=0; i<IdLength; i++ ){
@@ -95,23 +105,14 @@ public class MergeFilterA extends FilterFramework {
 					bytesread++;						// Increment the byte count
 
 				} // for
-
-				/****************************************************************************
-				// Here we read measurements. All measurement data is read as a stream of bytes
-				// and stored as a long value. This permits us to do bitwise manipulation that
-				// is neccesary to convert the byte stream into data words. Note that bitwise
-				// manipulation is not permitted on any kind of floating point types in Java.
-				// If the id = 0 then this is a time value and is therefore a long value - no
-				// problem. However, if the id is something other than 0, then the bits in the
-				// long value is really of type double and we need to convert the value using
-				// Double.longBitsToDouble(long val) to do the conversion which is illustrated.
-				// below.
-				*****************************************************************************/
-
+			
+				/**
+				 * Read 8 bytes of measurements from the second input port.
+				 * Buffering as necessary.
+				 */
 				measurement2 = 0;
 				data_bytes2 = new byte[8];
-				for (i=0; i<MeasurementLength; i++ )
-				{
+				for (i=0; i<MeasurementLength; i++ ) {
 					databyte = ReadFilterInputPort2();
 					measurement2 = measurement2 | (databyte & 0xFF);	// We append the byte on to measurement...
 
@@ -124,10 +125,13 @@ public class MergeFilterA extends FilterFramework {
 					bytesread++;									// Increment the byte count
 
 				} // if
+				/**
+				 * Read 8 bytes of measurements from the first input port.
+				 * Buffering as necessary.
+				 */
 				measurement = 0;
 				data_bytes = new byte[8];
-				for (i=0; i<MeasurementLength; i++ )
-				{
+				for (i=0; i<MeasurementLength; i++ ) {
 					databyte = ReadFilterInputPort();
 					measurement = measurement | (databyte & 0xFF);	// We append the byte on to measurement...
 
@@ -141,17 +145,11 @@ public class MergeFilterA extends FilterFramework {
 
 				} // if
 				
-				
-				/*if ( id == 0 )
-				{
-					Calendar TimeStamp = Calendar.getInstance();
-					SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy::dd:hh:mm:ss");
-					TimeStamp.setTimeInMillis(measurement);
-					System.out.print( 
-							TimeStampFormat.format(TimeStamp.getTime()) + " ID = " + id + " " + Double.longBitsToDouble(measurement) );
-				} // if*/
-				
-				
+				/**
+				 * The only data in id_bytes2 and data_bytes2 are
+				 * time and temperature. We want to write them to the output
+				 * either way.
+				 */
 				for (i = 0; i < 4; i++) {
 					WriteFilterOutputPort(id_bytes2[i]);
 					byteswritten++;
@@ -160,6 +158,11 @@ public class MergeFilterA extends FilterFramework {
 					WriteFilterOutputPort(data_bytes2[i]);
 					byteswritten++;
 				}
+				/** 
+				 * We ONLY write ID and data from the first inputport if the
+				 * measurements are altitude. We do not care about the time
+				 * since the previous write would have covered it.
+				 */
 				if (id == 2) {
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
@@ -184,8 +187,13 @@ public class MergeFilterA extends FilterFramework {
 
 	} // run
 	
-	byte ReadFilterInputPort2() throws EndOfStreamException
-	{
+	/**
+	 * This method DOES NOT override the superclass method. It simply allows us
+	 * to read from the second input port.
+	 * @return
+	 * @throws EndOfStreamException
+	 */
+	byte ReadFilterInputPort2() throws EndOfStreamException {
 		byte datum = 0;
 
 		/***********************************************************************
@@ -253,6 +261,11 @@ public class MergeFilterA extends FilterFramework {
 
 	} // ReadInputFilterPort2
 	
+	/**
+	 * This method DOES NOT override the superclass method for closing ports.
+	 * Where the super class method closes input port and the first output port,
+	 * this method closes the second output port.
+	 */
 	void ClosePorts2() {
 		try {
 			InputReadPort2.close();
@@ -264,6 +277,13 @@ public class MergeFilterA extends FilterFramework {
 
 	} // ClosePorts2
 	
+	/**
+	 * This method OVERRIDES the superclass connect method. It does not take
+	 * a generic FilterFramework, rather, it takes a specific Altitude Filter.
+	 * @param Filter
+	 * @param codes
+	 * @throws IOException
+	 */
 	void Connect( AltConverterA Filter, HashSet<Integer> codes) throws IOException {
 		Filter.validateConvertedCodes(codes);
 		try
@@ -283,6 +303,13 @@ public class MergeFilterA extends FilterFramework {
 
 	} // Connect
 	
+	/**
+	 * This method OVERRIDES the superclass connect method. It does not take
+	 * a generic FilterFramework, rather, it takes a specific Temperature Filter.
+	 * @param Filter
+	 * @param codes
+	 * @throws IOException
+	 */
 	void Connect( TempConverterA Filter, HashSet<Integer> codes ) throws IOException {
 		Filter.validateConvertedCodes(codes);
 		try
@@ -305,4 +332,4 @@ public class MergeFilterA extends FilterFramework {
 	public PipedInputStream getInputReadPort2() {
 		return InputReadPort2;
 	}
-} // MiddleFilter
+} // MergerFilterA
