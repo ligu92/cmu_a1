@@ -1,13 +1,14 @@
 package SystemA;
 
-/******************************************************************************************************************
-* File:FilterFramework.java
-* Course: 17655
-* Project: Assignment 1
-* Copyright: Copyright (c) 2003 Carnegie Mellon University
-* Versions:
-*	1.0 November 2008 - Initial rewrite of original assignment 1 (ajl).
-*
+import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.crypto.dsig.spec.XPathType.Filter;
+
+/**
+* 
+* @author ligu
 * Description:
 *
 * This superclass defines a skeletal filter framework that defines a filter in terms of the input and output
@@ -27,21 +28,20 @@ package SystemA;
 * FilterFramework:  This is a reference to the filter that is connected to the instance filter's input port. This
 *					reference is to determine when the upstream filter has stopped sending data along the pipe.
 *
+* convertedCodes:   This is a set of integers that represents what kind of inputs the filter is allowed to take.
+* 					This is a restriction that we took on when we used AcmeStudio as the architecture builder
+* 					since every pipe in AcmeStudio must be coded. 
+*
 * Internal Methods:
 *
 *	public void Connect( FilterFramework Filter )
 *	public byte ReadFilterInputPort()
 *	public void WriteFilterOutputPort(byte datum)
 *	public boolean EndOfInputStream()
+*   protected void setInputType(HashSet<Integer> Codes)
+*   protected void validateConvertedCodes(HashSet<Integer> Codes)
 *
-******************************************************************************************************************/
-
-import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.xml.crypto.dsig.spec.XPathType.Filter;
-
+*/
 public class FilterFramework extends Thread
 {
 	//Input types
@@ -58,38 +58,51 @@ public class FilterFramework extends Thread
 
 	private FilterFramework InputFilter;
 	
+	/**
+	 * Default constructor
+	 */
 	public FilterFramework() {
-		
 	}
+
+	/**
+	 * Constructor that instantiates a subclass filter with a set of input codes
+	 * @param Codes
+	 */
 	public FilterFramework(HashSet<Integer> Codes){
 		//this.convertedCodes=Codes;
 		setInputType(Codes);
 	}
+	
+	/**
+	 * The method used to set the object's input codes
+	 * @param Codes
+	 */
 	protected void setInputType(HashSet<Integer> Codes){
 		for (int i : Codes) {
 			this.convertedCodes.add(i);
 		}
 	}
+	
+	/**
+	 * The method that validates the codes provided with the object's input codes.
+	 * Every filter being connected to is passed a set of input codes that
+	 * are then validated using this method. If there are discrepancies, the method
+	 * throws an exception. This is similar to how AcmeStudios would raise
+	 * an error if the codes do not match for filter pipes.
+	 * @param Codes
+	 * @throws IOException
+	 */
 	protected void validateConvertedCodes(HashSet<Integer> Codes) throws IOException{
 		if (!(Codes.equals(this.convertedCodes))){
 			throw new IOException();
 		}
 	}
 
-	/***************************************************************************
-	* InnerClass:: EndOfStreamExeception
-	* Purpose: This
-	*
-	*
-	*
-	* Arguments: none
-	*
-	* Returns: none
-	*
-	* Exceptions: none
-	*
-	****************************************************************************/
-	
+	/**
+	 * InnerClass: EndOfStreamException
+	 * @author Tony
+	 *
+	 */
 	class EndOfStreamException extends Exception {
 
                 static final long serialVersionUID = 0; // the version for streaming
@@ -100,23 +113,16 @@ public class FilterFramework extends Thread
 
 	} // class
 
-
-	/***************************************************************************
-	* CONCRETE METHOD:: Connect
-	* Purpose: This method connects filters to each other. All connections are
-	* through the inputport of each filter. That is each filter's inputport is
-	* connected to another filter's output port through this method.
-	*
-	* Arguments:
-	* 	FilterFramework - this is the filter that this filter will connect to.
-	*
-	* Returns: void
-	*
-	* Exceptions: IOException
-	 * @throws IOException 
-	*
-	****************************************************************************/
-
+	/**
+	 * This method connects filters to each other. All connections are
+	 * through the inputport of each filter. That is each filter's inputport is
+	 * connected to another filter's output port through this method.
+	 * This method has been modified from the original version to take a set
+	 * of input codes so they can be verified against the filter object's codes.
+	 * @param Filter
+	 * @param codes
+	 * @throws IOException
+	 */
 	void Connect( FilterFramework Filter, HashSet<Integer> codes ) throws IOException
 	{
 		Filter.validateConvertedCodes(codes);
@@ -137,18 +143,11 @@ public class FilterFramework extends Thread
 
 	} // Connect
 
-	/***************************************************************************
-	* CONCRETE METHOD:: ReadFilterInputPort
-	* Purpose: This method reads data from the input port one byte at a time.
-	*
-	* Arguments: void
-	*
-	* Returns: byte of data read from the input port of the filter.
-	*
-	* Exceptions: IOExecption, EndOfStreamException (rethrown)
-	*
-	****************************************************************************/
-
+	/**
+	 * This method reads data from the input port one byte at a time.
+	 * @return
+	 * @throws EndOfStreamException
+	 */
 	byte ReadFilterInputPort() throws EndOfStreamException
 	{
 		byte datum = 0;
@@ -218,20 +217,10 @@ public class FilterFramework extends Thread
 
 	} // ReadFilterPort
 
-	/***************************************************************************
-	* CONCRETE METHOD:: WriteFilterOutputPort
-	* Purpose: This method writes data to the output port one byte at a time.
-	*
-	* Arguments:
-	* 	byte datum - This is the byte that will be written on the output port.of
-	*	the filter.
-	*
-	* Returns: void
-	*
-	* Exceptions: IOException
-	*
-	****************************************************************************/
-
+	/**
+	 * This method writes data to the output port one byte at a time.
+	 * @param datum
+	 */
 	void WriteFilterOutputPort(byte datum)
 	{
 		try
@@ -251,23 +240,14 @@ public class FilterFramework extends Thread
 
 	} // WriteFilterPort
 
-	/***************************************************************************
-	* CONCRETE METHOD:: EndOfInputStream
-	* Purpose: This method is used within this framework which is why it is private
-	* It returns a true when there is no more data to read on the input port of
-	* the instance filter. What it really does is to check if the upstream filter
-	* is still alive. This is done because Java does not reliably handle broken
-	* input pipes and will often continue to read (junk) from a broken input pipe.
-	*
-	* Arguments: void
-	*
-	* Returns: A value of true if the previous filter has stopped sending data,
-	*		   false if it is still alive and sending data.
-	*
-	* Exceptions: none
-	*
-	****************************************************************************/
-
+	/**
+	 * This method is used within this framework which is why it is private
+	 * It returns a true when there is no more data to read on the input port of
+	 * the instance filter. What it really does is to check if the upstream filter
+	 * is still alive. This is done because Java does not reliably handle broken
+	 * input pipes and will often continue to read (junk) from a broken input pipe.
+	 * @return
+	 */
 	protected boolean EndOfInputStream()
 	{
 		if (InputFilter.isAlive())
@@ -282,20 +262,11 @@ public class FilterFramework extends Thread
 
 	} // EndOfInputStream
 
-	/***************************************************************************
-	* CONCRETE METHOD:: ClosePorts
-	* Purpose: This method is used to close the input and output ports of the
-	* filter. It is important that filters close their ports before the filter
-	* thread exits.
-	*
-	* Arguments: void
-	*
-	* Returns: void
-	*
-	* Exceptions: IOExecption
-	*
-	****************************************************************************/
-
+	/**
+	 * This method is used to close the input and output ports of the
+	 * filter. It is important that filters close their ports before the filter
+	 * thread exits.
+	 */
 	void ClosePorts()
 	{
 		try
@@ -312,21 +283,12 @@ public class FilterFramework extends Thread
 
 	} // ClosePorts
 
-	/***************************************************************************
-	* CONCRETE METHOD:: run
-	* Purpose: This is actually an abstract method defined by Thread. It is called
-	* when the thread is started by calling the Thread.start() method. In this
-	* case, the run() method should be overridden by the filter programmer using
-	* this framework superclass
-	*
-	* Arguments: void
-	*
-	* Returns: void
-	*
-	* Exceptions: IOExecption
-	*
-	****************************************************************************/
-
+	/**
+	 * This is actually an abstract method defined by Thread. It is called
+	 * when the thread is started by calling the Thread.start() method. In this
+	 * case, the run() method should be overridden by the filter programmer using
+	 * this framework superclass
+	 */
 	public void run()
     {
 		// The run method should be overridden by the subordinate class. Please
