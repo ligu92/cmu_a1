@@ -5,33 +5,38 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
 
-/******************************************************************************************************************
-* File:MiddleFilter.java
-* Course: 17655
-* Project: Assignment 1
-* Copyright: Copyright (c) 2003 Carnegie Mellon University
-* Versions:
-*	1.0 November 2008 - Sample Pipe and Filter code (ajl).
-*
-* Description:
-*
-* This class serves as an example for how to use the FilterRemplate to create a standard filter. This particular
-* example is a simple "pass-through" filter that reads data from the filter's input port and writes data out the
-* filter's output port.
-*
-* Parameters: 		None
-*
-* Internal Methods: None
-*
-******************************************************************************************************************/
-
+/**
+ * This is SplitterFilter for SystemA. This one is responsible for taking
+ * the raw input stream from the source and split it up. In the case of
+ * SystemA, time and altitude go to the AltConverter, time and temperature
+ * goto the TempConverter filter. The other data don't go anywhere since we 
+ * don't care about them in SystemA.
+ * 
+ * This class is somewhat special. We tried to preserve the original
+ * Framework, which is suited to one inputport and one outputport.
+ * Since our architecture calls for two outputports, we have to add
+ * another private member to this filter. This calls for the overriding
+ * of some methods of the superclass and some new methods.
+ * @author ligu
+ *
+ */
 public class SplitterFilterA extends FilterFramework {
+	// This is the second outputport for the splitter.
+	// The first outputport goes to the altitude converter, so this
+	// one goes to the temperature one.
 	private PipedOutputStream OutputWritePort2 = new PipedOutputStream();
 	
+	/**
+	 * Overload the superclass constructor
+	 * @param codesSet
+	 */
 	public SplitterFilterA(HashSet<Integer> codesSet) {
 		setInputType(codesSet);
 	}
 
+	/**
+	 * Starts off the filter.
+	 */
 	public void run() {
 		int MeasurementLength = 8;		// This is the length of all measurements (including time) in bytes
 		int IdLength = 4;				// This is the length of IDs in the byte stream
@@ -43,6 +48,7 @@ public class SplitterFilterA extends FilterFramework {
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
 		
+		//We use two byte arrays to buffer the 4 bytes of ID and the 8 bytes of measurements
 		byte[] id_bytes;
 		byte[] data_bytes;
 
@@ -53,11 +59,10 @@ public class SplitterFilterA extends FilterFramework {
 		System.out.print( "\n" + this.getName() + "::Middle Reading ");
 
 		while (true) {
-			/*************************************************************
-			*	Here we read a byte and write a byte
-			*************************************************************/
-
-			try {				
+			try {		
+				/**
+				 * Similar to other filters, we read the 4 bytes of ID.
+				 */
 				id = 0;
 				id_bytes = new byte[4];
 				for (i=0; i<IdLength; i++ ){
@@ -70,6 +75,7 @@ public class SplitterFilterA extends FilterFramework {
 						id = id << 8;					// to make room for the next byte we append to the ID
 
 					} // if
+					// We add the 4 bytes of id into the byte array for buffering
 					id_bytes[i] = databyte;
 					bytesread++;						// Increment the byte count
 
@@ -86,7 +92,6 @@ public class SplitterFilterA extends FilterFramework {
 				// Double.longBitsToDouble(long val) to do the conversion which is illustrated.
 				// below.
 				*****************************************************************************/
-
 				measurement = 0;
 				data_bytes = new byte[8];
 				for (i=0; i<MeasurementLength; i++ )
@@ -99,13 +104,19 @@ public class SplitterFilterA extends FilterFramework {
 						measurement = measurement << 8;				// to make room for the next byte we append to the
 																	// measurement
 					} // if
+					// Again, note the buffering array
 					data_bytes[i] = databyte;
 					bytesread++;									// Increment the byte count
 
 				} // if
 
+				/**
+				 * If the id is 0, that means we have time. According to our
+				 * architecture, time data goes to both of the outputports.
+				 * So we go through both the id and measurement byte arrays and
+				 * write to both outputports.
+				 */
 				if ( id == 0 ) {
-					//TimeStamp.setTimeInMillis(measurement);
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
 						WriteFilterOutputPort2(id_bytes[i]);
@@ -117,6 +128,10 @@ public class SplitterFilterA extends FilterFramework {
 						byteswritten+=2;
 					}
 				} // if
+				/**
+				 * In the case of altitude, we only need to send the data to
+				 * AltConverterA
+				 */
 				else if (id == 2) {
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
@@ -127,6 +142,10 @@ public class SplitterFilterA extends FilterFramework {
 						byteswritten++;
 					}			 
 				} // else if
+				/**
+				 * Where in the case of temperature, it is sufficient to go to
+				 * TempConverterA
+				 */
 				else if (id == 4) {
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort2(id_bytes[i]);
@@ -139,6 +158,7 @@ public class SplitterFilterA extends FilterFramework {
 				} // else if
 			} // try
 
+			//Catch the eos exception
 			catch (EndOfStreamException e) {
 				ClosePorts();
 				ClosePorts2();
@@ -151,6 +171,12 @@ public class SplitterFilterA extends FilterFramework {
 
 	} // run
 	
+	/**
+	 * This method DOES NOT override the superclass write method. Both this
+	 * method and the super class method are used. This method simply
+	 * writes the data to the second output port, defined in the beginning.
+	 * @param datum
+	 */
 	void WriteFilterOutputPort2(byte datum)
 	{
 		try
@@ -170,6 +196,11 @@ public class SplitterFilterA extends FilterFramework {
 
 	} // WriteFilterPort2
 	
+	/**
+	 * This method DOES NOT override the superclass method for closing ports.
+	 * Where the super class method closes input port and the first output port,
+	 * this method closes the second output port.
+	 */
 	void ClosePorts2() {
 		try {
 			OutputWritePort2.close();
