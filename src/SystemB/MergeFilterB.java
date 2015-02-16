@@ -219,6 +219,7 @@ public class MergeFilterB extends FilterFramework {
 			    
 				//Wild points directed to other output
 				if(id==103){
+					System.out.println("id 103?");
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort2(id_bytes3[i]);
 						byteswritten++;
@@ -436,6 +437,7 @@ public class MergeFilterB extends FilterFramework {
 	void ClosePorts2() {
 		try {
 			InputReadPort2.close();
+			InputReadPort3.close();
 		}
 		catch( Exception Error ) {
 			System.out.println( "\n" + this.getName() + " ClosePorts error::" + Error );

@@ -142,6 +142,16 @@ public class SplitterFilterB extends FilterFramework {
 						byteswritten++;
 					}			 
 				} // else if
+				else if (id == 3) {
+					for (i = 0; i < 4; i++) {
+						WriteFilterOutputPort3(id_bytes[i]);
+						byteswritten++;
+					}
+					for (i = 0; i < 8; i++) {
+						WriteFilterOutputPort3(data_bytes[i]);
+						byteswritten++;
+					}
+				} // else if
 				/**
 				 * Where in the case of temperature, it is sufficient to go to
 				 * TempConverterA
@@ -196,6 +206,25 @@ public class SplitterFilterB extends FilterFramework {
 
 	} // WriteFilterPort2
 	
+	void WriteFilterOutputPort3(byte datum)
+	{
+		try
+		{
+            OutputWritePort3.write((int) datum );
+		   	OutputWritePort3.flush();
+
+		} // try
+
+		catch( Exception Error )
+		{
+			System.out.println("\n" + this.getName() + " Pipe write error::" + Error );
+
+		} // catch
+
+		return;
+
+	} // WriteFilterPort3
+	
 	/**
 	 * This method DOES NOT override the superclass method for closing ports.
 	 * Where the super class method closes input port and the first output port,
@@ -204,6 +233,7 @@ public class SplitterFilterB extends FilterFramework {
 	void ClosePorts2() {
 		try {
 			OutputWritePort2.close();
+			OutputWritePort3.close();
 		}
 		catch( Exception Error ) {
 			System.out.println( "\n" + this.getName() + " ClosePorts error::" + Error );

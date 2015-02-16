@@ -275,7 +275,7 @@ public class PresFilterB extends FilterFramework {
 				for (Map.Entry<Long, Double> entry : bufferWildPoints.entrySet()) {
 					//replace all values with the first valid point encountered
 					//Sending pressure type identification. wild or converted (103- wild, 203-converted)
-					
+					System.out.println("in loop");
 					int timeCode=001;
 					ByteBuffer.wrap(pressureType).putDouble(timeCode);
 					for (i = 0; i < 4; i++) {

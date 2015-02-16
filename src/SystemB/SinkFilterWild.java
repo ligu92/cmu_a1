@@ -66,7 +66,7 @@ public class SinkFilterWild extends FilterFramework  {
 				// We know that the first data coming to this filter is going to be an ID and
 				// that it is IdLength long. So we first decommutate the ID bytes.
 				****************************************************************************/
-
+				
 				id = 0;
 				for (i=0; i<IdLength; i++ ) {
 					databyte = ReadFilterInputPort();	// This is where we read the byte from the stream...
