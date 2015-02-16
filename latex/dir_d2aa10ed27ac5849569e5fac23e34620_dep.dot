@@ -1,9 +1,0 @@
-digraph "src/SystemA" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
-    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
-  dir_d2aa10ed27ac5849569e5fac23e34620 [shape=box, label="SystemA", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d2aa10ed27ac5849569e5fac23e34620.html"];
-  }
-}
