@@ -71,6 +71,7 @@ public class PresFilterB extends FilterFramework {
 
 		while (true) {
 			try {
+				System.out.println("pressure");
 				/**
 				 * Similar to other filters, we read the 4 bytes of ID.
 				 */
@@ -268,6 +269,7 @@ public class PresFilterB extends FilterFramework {
     						}
                     }				
 				} // else if
+				System.out.println("end of pressure");
 			} // try
 
 			catch (EndOfStreamException e) {
