@@ -120,12 +120,14 @@ public class SplitterFilterB extends FilterFramework {
 					for (i = 0; i < 4; i++) {
 						WriteFilterOutputPort(id_bytes[i]);
 						WriteFilterOutputPort2(id_bytes[i]);
-						byteswritten+=2;
+						WriteFilterOutputPort3(id_bytes[i]);
+						byteswritten+=3;
 					}
 					for (i = 0; i < 8; i++) {
 						WriteFilterOutputPort(data_bytes[i]);
 						WriteFilterOutputPort2(data_bytes[i]);
-						byteswritten+=2;
+						WriteFilterOutputPort3(data_bytes[i]);
+						byteswritten+=3;
 					}
 				} // if
 				/**

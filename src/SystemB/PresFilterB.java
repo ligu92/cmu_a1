@@ -168,7 +168,7 @@ public class PresFilterB extends FilterFramework {
                             wildPointEncounteredFirst=1;
                     	//sending the wild points first and then try to extrapolate
                         int pressureCode=103;
-						ByteBuffer.wrap(pressureType).putDouble(pressureCode);
+						ByteBuffer.wrap(pressureType).putInt(pressureCode);
 						for (i = 0; i < 4; i++) {
 							WriteFilterOutputPort(pressureType[i]);
 							byteswritten++;
@@ -350,22 +350,22 @@ public class PresFilterB extends FilterFramework {
 	} // Connect
 	
 	boolean isWildPoint(double previousPressure, double currentPressure, int wildPointEncounteredFirst){
-	if(wildPointEncounteredFirst==1){
-		if(currentPressure<0)
-			return true;
-		else
-			return false;
-	}
-	else{
-		if(currentPressure<0)
-			return true;
-		if(currentPressure>previousPressure && (currentPressure-previousPressure)>10)
-			return true;
-		if(currentPressure<previousPressure && (previousPressure-currentPressure)>10)
-			return true;
-		else
-			return false;
-	}
+		if(wildPointEncounteredFirst==1){
+			if(currentPressure<0)
+				return true;
+			else
+				return false;
+		}
+		else{
+			if(currentPressure<0)
+				return true;
+			if(currentPressure>previousPressure && (currentPressure-previousPressure)>10)
+				return true;
+			if(currentPressure<previousPressure && (previousPressure-currentPressure)>10)
+				return true;
+			else
+				return false;
+		}
 	}
 
 }
