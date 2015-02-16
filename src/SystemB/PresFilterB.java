@@ -188,7 +188,7 @@ public class PresFilterB extends FilterFramework {
     								//Sedning pressure type identification. wild or converted (103- wild, 203-converted)
     								
     								int timeCode=001;
-    								ByteBuffer.wrap(pressureType).putDouble(timeCode);
+    								ByteBuffer.wrap(pressureType).putInt(timeCode);
     								for (i = 0; i < 4; i++) {
     									WriteFilterOutputPort(pressureType[i]);
     									byteswritten++;
@@ -202,7 +202,7 @@ public class PresFilterB extends FilterFramework {
     		    					}
     		    					
     								pressureCode=203;
-    								ByteBuffer.wrap(pressureType).putDouble(pressureCode);
+    								ByteBuffer.wrap(pressureType).putInt(pressureCode);
     								for (i = 0; i < 4; i++) {
     									WriteFilterOutputPort(pressureType[i]);
     									byteswritten++;
@@ -231,7 +231,7 @@ public class PresFilterB extends FilterFramework {
     								//Sedning pressure type identification. wild or converted (103- wild, 203-converted)
     								
     								int timeCode=001;
-    								ByteBuffer.wrap(pressureType).putDouble(timeCode);
+    								ByteBuffer.wrap(pressureType).putInt(timeCode);
     								for (i = 0; i < 4; i++) {
     									WriteFilterOutputPort(pressureType[i]);
     									byteswritten++;
@@ -245,7 +245,7 @@ public class PresFilterB extends FilterFramework {
     		    					}
     		    					
     								pressureCode=203;
-    								ByteBuffer.wrap(pressureType).putDouble(pressureCode);
+    								ByteBuffer.wrap(pressureType).putInt(pressureCode);
     								for (i = 0; i < 4; i++) {
     									WriteFilterOutputPort(pressureType[i]);
     									byteswritten++;

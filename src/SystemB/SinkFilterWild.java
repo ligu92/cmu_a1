@@ -35,7 +35,7 @@ public class SinkFilterWild extends FilterFramework  {
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
 		
-		String outFileName = "OutputA.dat"; // This is the filename of the output
+		String outFileName = "WildPoints.dat"; // This is the filename of the output
 		
 		//When we read the altitude and the temperature, we save them
 		//into variables so we can format the decimals as the writeup specified.
