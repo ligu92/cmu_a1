@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main',['main',['../class_system_a_1_1_plumber_a.html#aa3c57a5fc378572e7bbeb475fbe1451d',1,'SystemA::PlumberA']]],
-  ['mergefiltera',['MergeFilterA',['../class_system_a_1_1_merge_filter_a.html#acdc58d2d95e2a59ff8a6731aa18d7c2d',1,'SystemA::MergeFilterA']]],
-  ['mergefiltera',['MergeFilterA',['../class_system_a_1_1_merge_filter_a.html',1,'SystemA']]]
+  ['filterframework',['FilterFramework',['../class_system_a_1_1_filter_framework.html',1,'SystemA']]],
+  ['filterframework',['FilterFramework',['../class_system_a_1_1_filter_framework.html#ad7ebd0cd900fb578711b6b84079dc80a',1,'SystemA.FilterFramework.FilterFramework()'],['../class_system_a_1_1_filter_framework.html#a640d5b39042aa0a66acc3261b03b0434',1,'SystemA.FilterFramework.FilterFramework(HashSet&lt; Integer &gt; Codes)']]],
+  ['filterframeworkc',['FilterFrameworkC',['../class_system_c_1_1_filter_framework_c.html',1,'SystemC']]]
 ];

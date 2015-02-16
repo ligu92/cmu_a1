@@ -1,6 +1,6 @@
 package SystemC;
 /******************************************************************************************************************
-* File:Plumber.java
+* File:PlumberC.java
 * Course: 17655
 * Project: Assignment 1
 * Copyright: Copyright (c) 2003 Carnegie Mellon University
@@ -19,7 +19,7 @@ package SystemC;
 * Internal Methods:	None
 *
 ******************************************************************************************************************/
-public class Plumber
+public class PlumberC
 {
    public static void main(String argv[])
    {
@@ -29,18 +29,18 @@ public class Plumber
 
 	   	String input1 = "DataSets/SubSetA.dat";
 	   	String input2 = "DataSets/SubSetB.dat";
-		SourceFilter Filter1 = new SourceFilter(input1);
-		SourceFilter Filter2 = new SourceFilter(input2);
+		SourceFilterC Filter1 = new SourceFilterC(input1);
+		SourceFilterC Filter2 = new SourceFilterC(input2);
 		
 		// the Filter to merge the two input streams
-		MergeFilter Filter3 = new MergeFilter();
+		MergeFilterC Filter3 = new MergeFilterC();
 		Filter3.Connect(Filter1);
 		Filter3.Connect(Filter2);
 		
-		AltitudeFilter Filter4 = new AltitudeFilter("LessThan10K.dat");
+		AltitudeFilterC Filter4 = new AltitudeFilterC("LessThan10K.dat");
 		Filter4.Connect(Filter3);
 
-		PressureWildPointsFilter Filter5 = new PressureWildPointsFilter("PressureWildPoints.dat");
+		PressureWildPointsFilterC Filter5 = new PressureWildPointsFilterC("PressureWildPoints.dat");
 		Filter5.Connect(Filter4);
 		
 		/****************************************************************************

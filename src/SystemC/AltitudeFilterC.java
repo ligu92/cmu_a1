@@ -1,5 +1,19 @@
 package SystemC;
+/******************************************************************************************************************
 
+* File:AltitudeFilterC.java
+* Course: 17655
+* Project: Assignment 1
+* Copyright: Copyright (c) 2003 Carnegie Mellon University
+* Versions:
+*	1.0 November 2008 - Initial rewrite of original assignment 1.
+*
+* Description:
+*
+* This class select the measurements with altitude less than 10K
+*
+*
+******************************************************************************************************************/
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,10 +22,10 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AltitudeFilter extends DataFrameFilterFramework {
+public class AltitudeFilterC extends DataFrameFilterFrameworkC {
 	private String fileName = null;
 	
-	public AltitudeFilter(String fileName)
+	public AltitudeFilterC(String fileName)
 	{
 		this.fileName = fileName;
 	}
@@ -64,6 +78,17 @@ public class AltitudeFilter extends DataFrameFilterFramework {
 		}
 	} // run
 */
+	/***************************************************************************
+	* CONCRETE METHOD:: run
+	* Purpose: select measurements with altitude value less than 10K
+	*
+	* Arguments: void
+	*
+	* Returns: void
+	*
+	* Exceptions: IOExecption
+	*
+	****************************************************************************/
 	public void run()
     {
 		Calendar TimeStamp = Calendar.getInstance();
@@ -71,7 +96,7 @@ public class AltitudeFilter extends DataFrameFilterFramework {
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(this.fileName));
 			// read data frame from the first Stream 
-			DataFrame df = readDataFrame(0);
+			DataFrameC df = readDataFrame(0);
 			
 			while (df != null ) {
 				if (df.altitude < 10000) {

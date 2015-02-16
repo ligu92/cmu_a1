@@ -1,15 +1,15 @@
 package SystemC;
 
 /***************************************************************************
-// DataFreameFilterFramework extend FilterFramework to encapsulate some 
- * function utilities to read data frame from streams.
+* DataFreameFilterFramework extend FilterFramework to encapsulate some 
+* function utilities to read data frame from streams.
 ****************************************************************************/
-public class DataFrameFilterFramework extends FilterFramework 
+public class DataFrameFilterFrameworkC extends FilterFrameworkC 
 {
 	
 	/***************************************************************************
-	// Read int from inputport
-	 * @throws EndOfStreamException 
+	* Read int from inputport
+	* @throws EndOfStreamException 
 	****************************************************************************/
 	private int readIntFromInputPort(int portId) throws EndOfStreamException
 	{
@@ -33,7 +33,7 @@ public class DataFrameFilterFramework extends FilterFramework
 	}
 	
 	/***************************************************************************
-	// Read Long from inputport
+	 * Read Long from inputport
 	 * @throws EndOfStreamException 
 	****************************************************************************/
 	private long readLongFromInputPort(int portId) throws EndOfStreamException
@@ -57,7 +57,7 @@ public class DataFrameFilterFramework extends FilterFramework
 	}
 	
 	/***************************************************************************
-	// Writ Int to OutputPort
+	 * Writ Int to OutputPort
 	 * @throws EndOfStreamException 
 	****************************************************************************/
 	private int writeIntToOutputPort(int v) throws EndOfStreamException
@@ -70,7 +70,7 @@ public class DataFrameFilterFramework extends FilterFramework
 	}
 	
 	/***************************************************************************
-	// Write Measurement from inputport
+	 * Write Measurement from inputport
 	 * @throws EndOfStreamException 
 	****************************************************************************/
 	private int writeLongToOutputPort(long v) throws EndOfStreamException
@@ -81,12 +81,12 @@ public class DataFrameFilterFramework extends FilterFramework
 	}
 	
 	/***************************************************************************
-	// Read a dataframe from InputPort
+	 * Read a dataframe from InputPort
 	 * @throws EndOfStreamException 
 	****************************************************************************/
-	DataFrame readDataFrame(int portId)
+	DataFrameC readDataFrame(int portId)
 	{
-		DataFrame df = new DataFrame(); // This is the data frame from the stream
+		DataFrameC df = new DataFrameC(); // This is the data frame from the stream
 
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
 		int id;							// This is the measurement id
@@ -137,10 +137,10 @@ public class DataFrameFilterFramework extends FilterFramework
 	}
 	
 	/***************************************************************************
-	// Write a dataframe to OutputPort
+	 * Write a dataframe to OutputPort
 	 * @throws EndOfStreamException 
 	****************************************************************************/
-	public int writeDataFrame(DataFrame df) throws EndOfStreamException {
+	public int writeDataFrame(DataFrameC df) throws EndOfStreamException {
 		int byteswrite = 0;
 		// write timestamp to OutputPort
 		byteswrite +=  writeIntToOutputPort(0);	

@@ -1,6 +1,10 @@
-package SystemC; 
-
-public class DataFrame {
+package SystemC;
+/**
+ * 
+ * Data structure represents measurement.
+ *
+ */
+public class DataFrameC {
 	public long timestamp = 0;
 	public double velocity = 0;
 	public double altitude = 0;

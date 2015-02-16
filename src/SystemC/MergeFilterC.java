@@ -1,5 +1,18 @@
 package SystemC;
-
+/******************************************************************************************************************
+* File:MergeFilterC.java
+* Course: 17655
+* Project: Assignment 1
+* Copyright: Copyright (c) 2003 Carnegie Mellon University
+* Versions:
+*	1.0 November 2008 - Initial rewrite of original assignment 1.
+*
+* Description:
+*
+* This class merge two streams and sort the measurements
+*
+*
+******************************************************************************************************************/
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.ArrayList;
@@ -7,19 +20,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MergeFilter extends DataFrameFilterFramework 
+public class MergeFilterC extends DataFrameFilterFrameworkC 
 {
-	/***************************************************************************
-	* CONCRETE METHOD:: run
-	* Purpose: merge two sorted streams.
-	*
-	* Arguments: void
-	*
-	* Returns: void
-	*
-	* Exceptions: IOExecption
-	*
-	****************************************************************************/
+	
 /*	public void run()
     {
 		// read data frame from the first Stream 
@@ -67,12 +70,22 @@ public class MergeFilter extends DataFrameFilterFramework
 	 */
 	
 	
-	
+	/***************************************************************************
+	* CONCRETE METHOD:: run
+	* Purpose: merge two streams and sort.
+	*
+	* Arguments: void
+	*
+	* Returns: void
+	*
+	* Exceptions: IOExecption
+	*
+	****************************************************************************/
 	public void run()
     {
-		List<DataFrame> dataFrames = new ArrayList<DataFrame>();
+		List<DataFrameC> dataFrames = new ArrayList<DataFrameC>();
 		// read data frame from the first Stream 
-		DataFrame df = readDataFrame(0);
+		DataFrameC df = readDataFrame(0);
 		while (df != null) {
 			dataFrames.add(df);
 			df = readDataFrame(0);
@@ -83,15 +96,15 @@ public class MergeFilter extends DataFrameFilterFramework
 			dataFrames.add(df);
 			df = readDataFrame(1);
 		}
-		Collections.sort(dataFrames, new Comparator<DataFrame>() {
+		Collections.sort(dataFrames, new Comparator<DataFrameC>() {
 
-			public int compare(DataFrame arg0, DataFrame arg1) {
+			public int compare(DataFrameC arg0, DataFrameC arg1) {
 				return (int) (arg0.timestamp - arg1.timestamp);
 			}
 			
 		});
 		
-		for (DataFrame df1 : dataFrames) {
+		for (DataFrameC df1 : dataFrames) {
 			//System.out.println(df1);
 			try {
 				writeDataFrame(df1);

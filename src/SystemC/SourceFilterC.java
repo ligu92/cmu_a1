@@ -1,12 +1,29 @@
+/******************************************************************************************************************
+* File:SourceFilterC.java
+* Course: 17655
+* Project: Assignment 1
+* Copyright: Copyright (c) 2003 Carnegie Mellon University
+* Versions:
+*	1.0 November 2008 - Sample Pipe and Filter code (ajl).
+*
+* Description:
+*
+* This class serves as an example for how to use the SourceFilterTemplate to create a source filter. This particular
+* filter is a source filter that reads some input from the FlightData.dat file and writes the bytes up stream.
+*
+* Parameters: 		None
+*
+* Internal Methods: None
+*
+******************************************************************************************************************/
 package SystemC;
-
 import java.io.*; // note we must add this here since we use BufferedReader class to read from the keyboard
 
-public class SourceFilter extends DataFrameFilterFramework
+public class SourceFilterC extends DataFrameFilterFrameworkC
 {
 	private String fileName = "";
 	
-	public SourceFilter(String fileName)
+	public SourceFilterC(String fileName)
 	{
 		this.fileName = fileName;
 	}

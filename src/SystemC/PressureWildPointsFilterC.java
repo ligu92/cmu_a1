@@ -1,5 +1,20 @@
+/******************************************************************************************************************
+* File:MergeFilterC.java
+* Course: 17655
+* Project: Assignment 1
+* Copyright: Copyright (c) 2003 Carnegie Mellon University
+* Versions:
+*	1.0 November 2008 - Initial rewrite of original assignment 1.
+*
+* Description:
+*
+* This class process wild points in the pressure, wild points encountered in the stream, 
+* extrapolate a replacement value by using the last known valid measurement 
+* and the next valid measurement in the stream
+*
+*
+******************************************************************************************************************/
 package SystemC;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,10 +24,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PressureWildPointsFilter extends DataFrameFilterFramework {
+public class PressureWildPointsFilterC extends DataFrameFilterFrameworkC {
 	private String fileName = null;
 	
-	public PressureWildPointsFilter(String fileName)
+	public PressureWildPointsFilterC(String fileName)
 	{
 		this.fileName = fileName;
 	}
@@ -23,8 +38,8 @@ public class PressureWildPointsFilter extends DataFrameFilterFramework {
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(this.fileName));
 			// read data frame from the first Stream 
-			DataFrame df = readDataFrame(0);
-			List<DataFrame> dataFrames = new ArrayList<DataFrame>();
+			DataFrameC df = readDataFrame(0);
+			List<DataFrameC> dataFrames = new ArrayList<DataFrameC>();
 			
 			double lastValidPressure = 0;
 			double nextValidPressure = 0;
@@ -35,7 +50,7 @@ public class PressureWildPointsFilter extends DataFrameFilterFramework {
 				df = readDataFrame(0);
 			}
 			
-			DataFrame dfNext = null;
+			DataFrameC dfNext = null;
 			// find the first valid point at the beginning of the stream
 			for (int i = 0; i < dataFrames.size() - 1; i++) {
 				df = dataFrames.get(i);
@@ -79,7 +94,7 @@ public class PressureWildPointsFilter extends DataFrameFilterFramework {
 				
 				// process invalid values before i
 				for(int j = lastValidPressureIndex + 1; j < i; j++) {
-					DataFrame dfTmp = dataFrames.get(j);
+					DataFrameC dfTmp = dataFrames.get(j);
 					// write wild pressure to out file
 					TimeStamp.setTimeInMillis(dfTmp.timestamp);
 					out.println(TimeStampFormat.format(TimeStamp.getTime()) +"\t" + dfTmp.pressure);

@@ -55,9 +55,9 @@ public class PlumberB {
 			// Start the filters, like Tony said in the original, not very exciting
 			source.start();
 			split.start();
+			pres.start();
 			alt.start();
 			temp.start();
-			pres.start();
 			sink.start();
 			sinkWild.start();
 			merge.start();
