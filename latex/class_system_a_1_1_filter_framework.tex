@@ -1,0 +1,153 @@
+\hypertarget{class_system_a_1_1_filter_framework}{}\section{System\+A.\+Filter\+Framework Class Reference}
+\label{class_system_a_1_1_filter_framework}\index{System\+A.\+Filter\+Framework@{System\+A.\+Filter\+Framework}}
+
+
+Inheritance diagram for System\+A.\+Filter\+Framework\+:
+% FIG 0
+
+
+Collaboration diagram for System\+A.\+Filter\+Framework\+:
+% FIG 1
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries End\+Of\+Stream\+Exception}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_system_a_1_1_filter_framework_ad7ebd0cd900fb578711b6b84079dc80a}{Filter\+Framework} ()
+\item 
+\hyperlink{class_system_a_1_1_filter_framework_a640d5b39042aa0a66acc3261b03b0434}{Filter\+Framework} (Hash\+Set$<$ Integer $>$ Codes)
+\item 
+void \hyperlink{class_system_a_1_1_filter_framework_a00efe5c6b5044acdf17db71c297d062e}{run} ()
+\item 
+\hypertarget{class_system_a_1_1_filter_framework_af98ac10ab07bb2e0e6668590803fc72b}{}Piped\+Input\+Stream {\bfseries get\+Input\+Read\+Port} ()\label{class_system_a_1_1_filter_framework_af98ac10ab07bb2e0e6668590803fc72b}
+
+\item 
+\hypertarget{class_system_a_1_1_filter_framework_aae378e5c79852b768d6bd96bd9d0b36e}{}\hyperlink{class_system_a_1_1_filter_framework}{Filter\+Framework} {\bfseries get\+Input\+Filter} ()\label{class_system_a_1_1_filter_framework_aae378e5c79852b768d6bd96bd9d0b36e}
+
+\item 
+\hypertarget{class_system_a_1_1_filter_framework_a48f93e54ac19d8208cb42a59e4259b0d}{}void {\bfseries set\+Input\+Filter} (\hyperlink{class_system_a_1_1_filter_framework}{Filter\+Framework} input\+Filter)\label{class_system_a_1_1_filter_framework_a48f93e54ac19d8208cb42a59e4259b0d}
+
+\item 
+\hypertarget{class_system_a_1_1_filter_framework_a53f809bc98980394826252ac762cd9e0}{}Piped\+Output\+Stream {\bfseries get\+Output\+Write\+Port} ()\label{class_system_a_1_1_filter_framework_a53f809bc98980394826252ac762cd9e0}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_system_a_1_1_filter_framework_a856b3a8b6b49ad1124de579485e86122}{set\+Input\+Type} (Hash\+Set$<$ Integer $>$ Codes)
+\item 
+void \hyperlink{class_system_a_1_1_filter_framework_a20e7a6999d87d75474742dafd6edb482}{validate\+Converted\+Codes} (Hash\+Set$<$ Integer $>$ Codes)  throws I\+O\+Exception
+\item 
+boolean \hyperlink{class_system_a_1_1_filter_framework_ac54511ad34d190b58ea3baecd6a70692}{End\+Of\+Input\+Stream} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+ligu Description\+:
+\end{DoxyAuthor}
+This superclass defines a skeletal filter framework that defines a filter in terms of the input and output ports. All filters must be defined in terms of this framework -\/ that is, filters must extend this class in order to be considered valid system filters. Filters as standalone threads until the inputport no longer has any data -\/ at which point the filter finishes up any work it has to do and then terminates.
+
+Parameters\+:
+
+Input\+Read\+Port\+: This is the filter\textquotesingle{}s input port. Essentially this port is connected to another filter\textquotesingle{}s piped output steam. All filters connect to other filters by connecting their input ports to other filter\textquotesingle{}s output ports. This is handled by the Connect() method.
+
+Output\+Write\+Port\+: This the filter\textquotesingle{}s output port. Essentially the filter\textquotesingle{}s job is to read data from the input port, perform some operation on the data, then write the transformed data on the output port.
+
+\hyperlink{class_system_a_1_1_filter_framework}{Filter\+Framework}\+: This is a reference to the filter that is connected to the instance filter\textquotesingle{}s input port. This reference is to determine when the upstream filter has stopped sending data along the pipe.
+
+converted\+Codes\+: This is a set of integers that represents what kind of inputs the filter is allowed to take. This is a restriction that we took on when we used Acme\+Studio as the architecture builder since every pipe in Acme\+Studio must be coded.
+
+Internal Methods\+:
+
+public void Connect( Filter\+Framework Filter ) public byte Read\+Filter\+Input\+Port() public void Write\+Filter\+Output\+Port(byte datum) public boolean \hyperlink{class_system_a_1_1_filter_framework_ac54511ad34d190b58ea3baecd6a70692}{End\+Of\+Input\+Stream()} protected void \hyperlink{class_system_a_1_1_filter_framework_a856b3a8b6b49ad1124de579485e86122}{set\+Input\+Type(\+Hash\+Set$<$\+Integer$>$ Codes)} protected void \hyperlink{class_system_a_1_1_filter_framework_a20e7a6999d87d75474742dafd6edb482}{validate\+Converted\+Codes(\+Hash\+Set$<$\+Integer$>$ Codes)} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_system_a_1_1_filter_framework_ad7ebd0cd900fb578711b6b84079dc80a}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!Filter\+Framework@{Filter\+Framework}}
+\index{Filter\+Framework@{Filter\+Framework}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{Filter\+Framework}]{\setlength{\rightskip}{0pt plus 5cm}System\+A.\+Filter\+Framework.\+Filter\+Framework (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_a_1_1_filter_framework_ad7ebd0cd900fb578711b6b84079dc80a}
+Default constructor \hypertarget{class_system_a_1_1_filter_framework_a640d5b39042aa0a66acc3261b03b0434}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!Filter\+Framework@{Filter\+Framework}}
+\index{Filter\+Framework@{Filter\+Framework}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{Filter\+Framework}]{\setlength{\rightskip}{0pt plus 5cm}System\+A.\+Filter\+Framework.\+Filter\+Framework (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+)}\label{class_system_a_1_1_filter_framework_a640d5b39042aa0a66acc3261b03b0434}
+Constructor that instantiates a subclass filter with a set of input codes 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:
+% FIG 2
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_system_a_1_1_filter_framework_ac54511ad34d190b58ea3baecd6a70692}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!End\+Of\+Input\+Stream@{End\+Of\+Input\+Stream}}
+\index{End\+Of\+Input\+Stream@{End\+Of\+Input\+Stream}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{End\+Of\+Input\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}boolean System\+A.\+Filter\+Framework.\+End\+Of\+Input\+Stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_a_1_1_filter_framework_ac54511ad34d190b58ea3baecd6a70692}
+This method is used within this framework which is why it is private It returns a true when there is no more data to read on the input port of the instance filter. What it really does is to check if the upstream filter is still alive. This is done because Java does not reliably handle broken input pipes and will often continue to read (junk) from a broken input pipe. \begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{class_system_a_1_1_filter_framework_a00efe5c6b5044acdf17db71c297d062e}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!run@{run}}
+\index{run@{run}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void System\+A.\+Filter\+Framework.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_a_1_1_filter_framework_a00efe5c6b5044acdf17db71c297d062e}
+This is actually an abstract method defined by Thread. It is called when the thread is started by calling the Thread.\+start() method. In this case, the \hyperlink{class_system_a_1_1_filter_framework_a00efe5c6b5044acdf17db71c297d062e}{run()} method should be overridden by the filter programmer using this framework superclass \hypertarget{class_system_a_1_1_filter_framework_a856b3a8b6b49ad1124de579485e86122}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!set\+Input\+Type@{set\+Input\+Type}}
+\index{set\+Input\+Type@{set\+Input\+Type}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{set\+Input\+Type}]{\setlength{\rightskip}{0pt plus 5cm}void System\+A.\+Filter\+Framework.\+set\+Input\+Type (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_a_1_1_filter_framework_a856b3a8b6b49ad1124de579485e86122}
+The method used to set the object\textquotesingle{}s input codes 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function\+:
+% FIG 3
+
+
+\hypertarget{class_system_a_1_1_filter_framework_a20e7a6999d87d75474742dafd6edb482}{}\index{System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}!validate\+Converted\+Codes@{validate\+Converted\+Codes}}
+\index{validate\+Converted\+Codes@{validate\+Converted\+Codes}!System\+A\+::\+Filter\+Framework@{System\+A\+::\+Filter\+Framework}}
+\subsubsection[{validate\+Converted\+Codes}]{\setlength{\rightskip}{0pt plus 5cm}void System\+A.\+Filter\+Framework.\+validate\+Converted\+Codes (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+) throws I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_a_1_1_filter_framework_a20e7a6999d87d75474742dafd6edb482}
+The method that validates the codes provided with the object\textquotesingle{}s input codes. Every filter being connected to is passed a set of input codes that are then validated using this method. If there are discrepancies, the method throws an exception. This is similar to how Acme\+Studios would raise an error if the codes do not match for filter pipes. 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\+O\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+System\+A/Filter\+Framework.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,71 @@
+\hypertarget{class_system_a_1_1_splitter_filter_a}{}\section{System\+A.\+Splitter\+Filter\+A Class Reference}
+\label{class_system_a_1_1_splitter_filter_a}\index{System\+A.\+Splitter\+Filter\+A@{System\+A.\+Splitter\+Filter\+A}}
+
+
+Inheritance diagram for System\+A.\+Splitter\+Filter\+A\+:
+% FIG 0
+
+
+Collaboration diagram for System\+A.\+Splitter\+Filter\+A\+:
+% FIG 1
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_system_a_1_1_splitter_filter_a_a79dc23af7be9dbb22286bce76cb79c18}{Splitter\+Filter\+A} (Hash\+Set$<$ Integer $>$ codes\+Set)
+\item 
+void \hyperlink{class_system_a_1_1_splitter_filter_a_a7ce43d0ac6d5aaf0c55f5d4417ec286a}{run} ()
+\item 
+\hypertarget{class_system_a_1_1_splitter_filter_a_abf1e9e0fb5fe6851c77d7724618cf81f}{}Piped\+Output\+Stream {\bfseries get\+Output\+Write\+Port2} ()\label{class_system_a_1_1_splitter_filter_a_abf1e9e0fb5fe6851c77d7724618cf81f}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+This is Splitter\+Filter for System\+A. This one is responsible for taking the raw input stream from the source and split it up. In the case of System\+A, time and altitude go to the Alt\+Converter, time and temperature goto the Temp\+Converter filter. The other data don\textquotesingle{}t go anywhere since we don\textquotesingle{}t care about them in System\+A.
+
+This class is somewhat special. We tried to preserve the original Framework, which is suited to one inputport and one outputport. Since our architecture calls for two outputports, we have to add another private member to this filter. This calls for the overriding of some methods of the superclass and some new methods. \begin{DoxyAuthor}{Author}
+ligu 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_system_a_1_1_splitter_filter_a_a79dc23af7be9dbb22286bce76cb79c18}{}\index{System\+A\+::\+Splitter\+Filter\+A@{System\+A\+::\+Splitter\+Filter\+A}!Splitter\+Filter\+A@{Splitter\+Filter\+A}}
+\index{Splitter\+Filter\+A@{Splitter\+Filter\+A}!System\+A\+::\+Splitter\+Filter\+A@{System\+A\+::\+Splitter\+Filter\+A}}
+\subsubsection[{Splitter\+Filter\+A}]{\setlength{\rightskip}{0pt plus 5cm}System\+A.\+Splitter\+Filter\+A.\+Splitter\+Filter\+A (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{codes\+Set}
+\end{DoxyParamCaption}
+)}\label{class_system_a_1_1_splitter_filter_a_a79dc23af7be9dbb22286bce76cb79c18}
+Overload the superclass constructor 
+\begin{DoxyParams}{Parameters}
+{\em codes\+Set} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:
+% FIG 2
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_system_a_1_1_splitter_filter_a_a7ce43d0ac6d5aaf0c55f5d4417ec286a}{}\index{System\+A\+::\+Splitter\+Filter\+A@{System\+A\+::\+Splitter\+Filter\+A}!run@{run}}
+\index{run@{run}!System\+A\+::\+Splitter\+Filter\+A@{System\+A\+::\+Splitter\+Filter\+A}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void System\+A.\+Splitter\+Filter\+A.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_a_1_1_splitter_filter_a_a7ce43d0ac6d5aaf0c55f5d4417ec286a}
+Starts off the filter. Similar to other filters, we read the 4 bytes of I\+D.
+
+If the id is 0, that means we have time. According to our architecture, time data goes to both of the outputports. So we go through both the id and measurement byte arrays and write to both outputports.
+
+In the case of altitude, we only need to send the data to \hyperlink{class_system_a_1_1_alt_converter_a}{Alt\+Converter\+A}
+
+Where in the case of temperature, it is sufficient to go to \hyperlink{class_system_a_1_1_temp_converter_a}{Temp\+Converter\+A}
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+System\+A/Splitter\+Filter\+A.\+java\end{DoxyCompactItemize}
