@@ -43,6 +43,8 @@ public class SinkFilterWild extends FilterFramework  {
 		DecimalFormat altFormatter = new DecimalFormat("000000.00000");
 		double temperature = 0.0;
 		DecimalFormat tempFormatter = new DecimalFormat("000.00000");
+		double pressure = 0.0;
+		DecimalFormat presFormatter = new DecimalFormat("00.00000");
 		
 		//Make a file writer so we can create the output.
 		File file = new File(outFileName);
@@ -153,6 +155,12 @@ public class SinkFilterWild extends FilterFramework  {
 					writer.write(tempFormatter.format(temperature) + "\t");
 					temperature = 0.0;
 				} // else if
+				else if (id == 103) {
+					pressure = Double.longBitsToDouble(measurement);
+					writer.write(presFormatter.format(pressure) + "\t");
+					pressure = 0.0;
+				} // else if
+
 
 			} // try
 
