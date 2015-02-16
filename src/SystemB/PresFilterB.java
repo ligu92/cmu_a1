@@ -71,7 +71,6 @@ public class PresFilterB extends FilterFramework {
 
 		while (true) {
 			try {
-				System.out.println("pressure");
 				/**
 				 * Similar to other filters, we read the 4 bytes of ID.
 				 */
@@ -119,7 +118,6 @@ public class PresFilterB extends FilterFramework {
 					data_bytes[i] = databyte;
 					bytesread++;									// Increment the byte count
 				} // if
-				System.out.println(id);
 				/**
 				 * If the id is 0, we have time data to write to the output
 				 */
@@ -148,7 +146,6 @@ public class PresFilterB extends FilterFramework {
                     
                     previousPressure=pressure;
                     if(!isWild){
-                    	System.out.println("wildpoint check passed");
                     	if(!(bufferWildPoints.size()>0)){
                     		validMeasure[0]=Double.toString(pressure);
                     	}
@@ -167,7 +164,6 @@ public class PresFilterB extends FilterFramework {
     					}		
                     }
                     else{
-                    	System.out.println("wildpoint check failed");
                         if(byteswritten==2)
                             wildPointEncounteredFirst=1;
                     	//sending the wild points first and then try to extrapolate
@@ -271,7 +267,6 @@ public class PresFilterB extends FilterFramework {
     						}
                     }				
 				} // else if
-				System.out.println("end of pressure");
 			} // try
 
 			catch (EndOfStreamException e) {
@@ -280,7 +275,6 @@ public class PresFilterB extends FilterFramework {
 				for (Map.Entry<Long, Double> entry : bufferWildPoints.entrySet()) {
 					//replace all values with the first valid point encountered
 					//Sending pressure type identification. wild or converted (103- wild, 203-converted)
-					System.out.println("in loop");
 					int timeCode=001;
 					ByteBuffer.wrap(pressureType).putDouble(timeCode);
 					for (i = 0; i < 4; i++) {
