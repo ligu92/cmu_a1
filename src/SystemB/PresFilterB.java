@@ -27,7 +27,8 @@ public class PresFilterB extends FilterFramework {
 	public PresFilterB(HashSet<Integer> codesSet) {
 		setInputType(codesSet);
 	}
-
+	//Flag to distinguish wild point occurence at first
+			int wildPointEncounteredFirst=1;
 	/**
 	 * Starts off the filter operation
 	 */
@@ -62,7 +63,7 @@ public class PresFilterB extends FilterFramework {
 		double previousPressure=0;
 		int count; // counter for buffer
 		//Flag to distinguish wild point occurence at first
-		int wildPointEncounteredFirst=0;
+		//int wildPointEncounteredFirst=1;
 
 		// Next we write a message to the terminal to let the world know we are alive...
 
@@ -143,7 +144,7 @@ public class PresFilterB extends FilterFramework {
 				else if (id == 3) {
 					pressure = Double.longBitsToDouble(measurement);
 					//Checking if the pressure is a valid point
-                    boolean isWild=isWildPoint(previousPressure, pressure, wildPointEncounteredFirst);
+                    boolean isWild=isWildPoint(previousPressure, pressure, this.wildPointEncounteredFirst);
                     previousPressure=pressure;
                     if(!isWild){
                     	if(!(bufferWildPoints.size()>0)){
@@ -224,7 +225,7 @@ public class PresFilterB extends FilterFramework {
     							bufferWildPoints.clear();
     						}
     						else if(validMeasure[0]!=null && validMeasure[1]!=null){
-    							wildPointEncounteredFirst=0;
+    							this.wildPointEncounteredFirst=0;
     							//Extend wild points using first and last valid points
     							for (Map.Entry<Long, Double> entry : bufferWildPoints.entrySet()) {
     								//replace all values with the first valid point encountered
@@ -353,15 +354,17 @@ public class PresFilterB extends FilterFramework {
 		if(wildPointEncounteredFirst==1){
 			if(currentPressure<0)
 				return true;
-			else
+			else{
+				this.wildPointEncounteredFirst=0;
 				return false;
+			}
 		}
 		else{
 			if(currentPressure<0)
 				return true;
-			if(currentPressure>previousPressure && (currentPressure-previousPressure)>10)
+			if(previousPressure>0 && currentPressure>previousPressure && (currentPressure-previousPressure)>10)
 				return true;
-			if(currentPressure<previousPressure && (previousPressure-currentPressure)>10)
+			if(previousPressure>0 && currentPressure<previousPressure && (previousPressure-currentPressure)>10)
 				return true;
 			else
 				return false;
