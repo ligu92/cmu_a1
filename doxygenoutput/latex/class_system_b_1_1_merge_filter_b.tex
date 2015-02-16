@@ -1,0 +1,111 @@
+\hypertarget{class_system_b_1_1_merge_filter_b}{}\section{System\+B.\+Merge\+Filter\+B Class Reference}
+\label{class_system_b_1_1_merge_filter_b}\index{System\+B.\+Merge\+Filter\+B@{System\+B.\+Merge\+Filter\+B}}
+
+
+Inheritance diagram for System\+B.\+Merge\+Filter\+B\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_system_b_1_1_merge_filter_b__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for System\+B.\+Merge\+Filter\+B\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_system_b_1_1_merge_filter_b__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_system_b_1_1_merge_filter_b_a63a9b515974c72eed2f4611557d85e85}{Merge\+Filter\+B} (Hash\+Set$<$ Integer $>$ codes\+Set)
+\item 
+void \hyperlink{class_system_b_1_1_merge_filter_b_a18f632bbeb40a6ffcbc1233683eceae4}{run} ()
+\item 
+\hypertarget{class_system_b_1_1_merge_filter_b_a618b23403c269d797e562d2650151fd1}{}Piped\+Input\+Stream {\bfseries get\+Input\+Read\+Port2} ()\label{class_system_b_1_1_merge_filter_b_a618b23403c269d797e562d2650151fd1}
+
+\item 
+\hypertarget{class_system_b_1_1_merge_filter_b_ae5c644c8852622de146568300fb6a290}{}Piped\+Input\+Stream {\bfseries get\+Input\+Read\+Port3} ()\label{class_system_b_1_1_merge_filter_b_ae5c644c8852622de146568300fb6a290}
+
+\item 
+\hypertarget{class_system_b_1_1_merge_filter_b_a30528d993a48d0d2eb2bc747b2b4b6a1}{}Piped\+Output\+Stream {\bfseries get\+Output\+Write\+Port2} ()\label{class_system_b_1_1_merge_filter_b_a30528d993a48d0d2eb2bc747b2b4b6a1}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+This method takes input from both the altitude converter and the temperature converter, merging the inputstreams for the sink filter to write to output. This class is special in that it has T\+W\+O inputports, one in the superclass and one as a private member of the subclass. \begin{DoxyAuthor}{Author}
+ligu, sdadi 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_system_b_1_1_merge_filter_b_a63a9b515974c72eed2f4611557d85e85}{}\index{System\+B\+::\+Merge\+Filter\+B@{System\+B\+::\+Merge\+Filter\+B}!Merge\+Filter\+B@{Merge\+Filter\+B}}
+\index{Merge\+Filter\+B@{Merge\+Filter\+B}!System\+B\+::\+Merge\+Filter\+B@{System\+B\+::\+Merge\+Filter\+B}}
+\subsubsection[{Merge\+Filter\+B}]{\setlength{\rightskip}{0pt plus 5cm}System\+B.\+Merge\+Filter\+B.\+Merge\+Filter\+B (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{codes\+Set}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_merge_filter_b_a63a9b515974c72eed2f4611557d85e85}
+Overload the superclass constructor 
+\begin{DoxyParams}{Parameters}
+{\em codes\+Set} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_system_b_1_1_merge_filter_b_a63a9b515974c72eed2f4611557d85e85_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_system_b_1_1_merge_filter_b_a18f632bbeb40a6ffcbc1233683eceae4}{}\index{System\+B\+::\+Merge\+Filter\+B@{System\+B\+::\+Merge\+Filter\+B}!run@{run}}
+\index{run@{run}!System\+B\+::\+Merge\+Filter\+B@{System\+B\+::\+Merge\+Filter\+B}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void System\+B.\+Merge\+Filter\+B.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_merge_filter_b_a18f632bbeb40a6ffcbc1233683eceae4}
+Runs the filter Three measurements are taken concurrently, measurement2 is from inputport2, which would be the temperature data. measurement3 is from inputport2, which would be the pressure data. measurement is from inputport1, which would be the altitude data.
+
+Three I\+D\textquotesingle{}s are stored one each for temperature, altitude and pressure
+
+since we need to read temperature, altitude, pressure data we need 6 bytes here
+
+Read four bytes of I\+D from the third input port
+
+Read four bytes of I\+D from the second input port
+
+Read four bytes of I\+D from the first input port
+
+Read 8 bytes of measurements from the third input port. Buffering as necessary.
+
+Read 8 bytes of measurements from the second input port. Buffering as necessary.
+
+Read 8 bytes of measurements from the first input port. Buffering as necessary.
+
+The only data in id\+\_\+bytes3 and data\+\_\+bytes3 are time and pressure with wild points classified. We want to write them to the outputport 1 and 2 seperately either way.
+
+We O\+N\+L\+Y write I\+D and data from the first inputport2 if the measurements are temperature. We do not care about the time since the previous write would have covered it.
+
+We O\+N\+L\+Y write I\+D and data from the first inputport if the measurements are altitude. We do not care about the time since the previous write would have covered it.
+
+We use both time and measurement for pressure to aggregate data based on time and also to seperate normal and wild point entries at end
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+System\+B/Merge\+Filter\+B.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,177 @@
+\hypertarget{class_system_b_1_1_filter_framework}{}\section{System\+B.\+Filter\+Framework Class Reference}
+\label{class_system_b_1_1_filter_framework}\index{System\+B.\+Filter\+Framework@{System\+B.\+Filter\+Framework}}
+
+
+Inheritance diagram for System\+B.\+Filter\+Framework\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_system_b_1_1_filter_framework__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for System\+B.\+Filter\+Framework\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_system_b_1_1_filter_framework__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries End\+Of\+Stream\+Exception}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_system_b_1_1_filter_framework_af0fb99cef096610db3ccfc9eeca6a3b8}{Filter\+Framework} ()
+\item 
+\hyperlink{class_system_b_1_1_filter_framework_ab125a0cf88badca1a24b2cb08b9094a9}{Filter\+Framework} (Hash\+Set$<$ Integer $>$ Codes)
+\item 
+void \hyperlink{class_system_b_1_1_filter_framework_af2b50769cc9a468f7d1f51b64ceb1a4e}{run} ()
+\item 
+\hypertarget{class_system_b_1_1_filter_framework_a30dac48a81c5f39b55e544c0b1999b9b}{}Piped\+Input\+Stream {\bfseries get\+Input\+Read\+Port} ()\label{class_system_b_1_1_filter_framework_a30dac48a81c5f39b55e544c0b1999b9b}
+
+\item 
+\hypertarget{class_system_b_1_1_filter_framework_a5bf1aa8c882cf37b5a2c99c63e146ae4}{}\hyperlink{class_system_b_1_1_filter_framework}{Filter\+Framework} {\bfseries get\+Input\+Filter} ()\label{class_system_b_1_1_filter_framework_a5bf1aa8c882cf37b5a2c99c63e146ae4}
+
+\item 
+\hypertarget{class_system_b_1_1_filter_framework_a92730e25f45151347227efee0cc346a0}{}void {\bfseries set\+Input\+Filter} (\hyperlink{class_system_b_1_1_filter_framework}{Filter\+Framework} input\+Filter)\label{class_system_b_1_1_filter_framework_a92730e25f45151347227efee0cc346a0}
+
+\item 
+\hypertarget{class_system_b_1_1_filter_framework_a0e08a606fce18a98aec19ba175807dad}{}Piped\+Output\+Stream {\bfseries get\+Output\+Write\+Port} ()\label{class_system_b_1_1_filter_framework_a0e08a606fce18a98aec19ba175807dad}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_system_b_1_1_filter_framework_afa14d2ab9f4041b5be320ddc5ee7d08b}{set\+Input\+Type} (Hash\+Set$<$ Integer $>$ Codes)
+\item 
+void \hyperlink{class_system_b_1_1_filter_framework_aef76734b8963d3bf5284f77200bfce08}{validate\+Converted\+Codes} (Hash\+Set$<$ Integer $>$ Codes)  throws I\+O\+Exception
+\item 
+boolean \hyperlink{class_system_b_1_1_filter_framework_a54b1f53b591887bc653558919e694346}{End\+Of\+Input\+Stream} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+ligu Description\+:
+\end{DoxyAuthor}
+This superclass defines a skeletal filter framework that defines a filter in terms of the input and output ports. All filters must be defined in terms of this framework -\/ that is, filters must extend this class in order to be considered valid system filters. Filters as standalone threads until the inputport no longer has any data -\/ at which point the filter finishes up any work it has to do and then terminates.
+
+Parameters\+:
+
+Input\+Read\+Port\+: This is the filter\textquotesingle{}s input port. Essentially this port is connected to another filter\textquotesingle{}s piped output steam. All filters connect to other filters by connecting their input ports to other filter\textquotesingle{}s output ports. This is handled by the Connect() method.
+
+Output\+Write\+Port\+: This the filter\textquotesingle{}s output port. Essentially the filter\textquotesingle{}s job is to read data from the input port, perform some operation on the data, then write the transformed data on the output port.
+
+\hyperlink{class_system_b_1_1_filter_framework}{Filter\+Framework}\+: This is a reference to the filter that is connected to the instance filter\textquotesingle{}s input port. This reference is to determine when the upstream filter has stopped sending data along the pipe.
+
+converted\+Codes\+: This is a set of integers that represents what kind of inputs the filter is allowed to take. This is a restriction that we took on when we used Acme\+Studio as the architecture builder since every pipe in Acme\+Studio must be coded.
+
+Internal Methods\+:
+
+public void Connect( Filter\+Framework Filter ) public byte Read\+Filter\+Input\+Port() public void Write\+Filter\+Output\+Port(byte datum) public boolean \hyperlink{class_system_b_1_1_filter_framework_a54b1f53b591887bc653558919e694346}{End\+Of\+Input\+Stream()} protected void \hyperlink{class_system_b_1_1_filter_framework_afa14d2ab9f4041b5be320ddc5ee7d08b}{set\+Input\+Type(\+Hash\+Set$<$\+Integer$>$ Codes)} protected void \hyperlink{class_system_b_1_1_filter_framework_aef76734b8963d3bf5284f77200bfce08}{validate\+Converted\+Codes(\+Hash\+Set$<$\+Integer$>$ Codes)} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_system_b_1_1_filter_framework_af0fb99cef096610db3ccfc9eeca6a3b8}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!Filter\+Framework@{Filter\+Framework}}
+\index{Filter\+Framework@{Filter\+Framework}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{Filter\+Framework}]{\setlength{\rightskip}{0pt plus 5cm}System\+B.\+Filter\+Framework.\+Filter\+Framework (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_filter_framework_af0fb99cef096610db3ccfc9eeca6a3b8}
+Default constructor \hypertarget{class_system_b_1_1_filter_framework_ab125a0cf88badca1a24b2cb08b9094a9}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!Filter\+Framework@{Filter\+Framework}}
+\index{Filter\+Framework@{Filter\+Framework}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{Filter\+Framework}]{\setlength{\rightskip}{0pt plus 5cm}System\+B.\+Filter\+Framework.\+Filter\+Framework (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_filter_framework_ab125a0cf88badca1a24b2cb08b9094a9}
+Constructor that instantiates a subclass filter with a set of input codes 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_system_b_1_1_filter_framework_ab125a0cf88badca1a24b2cb08b9094a9_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_system_b_1_1_filter_framework_a54b1f53b591887bc653558919e694346}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!End\+Of\+Input\+Stream@{End\+Of\+Input\+Stream}}
+\index{End\+Of\+Input\+Stream@{End\+Of\+Input\+Stream}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{End\+Of\+Input\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}boolean System\+B.\+Filter\+Framework.\+End\+Of\+Input\+Stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_b_1_1_filter_framework_a54b1f53b591887bc653558919e694346}
+This method is used within this framework which is why it is private It returns a true when there is no more data to read on the input port of the instance filter. What it really does is to check if the upstream filter is still alive. This is done because Java does not reliably handle broken input pipes and will often continue to read (junk) from a broken input pipe. \begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{class_system_b_1_1_filter_framework_af2b50769cc9a468f7d1f51b64ceb1a4e}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!run@{run}}
+\index{run@{run}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void System\+B.\+Filter\+Framework.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_filter_framework_af2b50769cc9a468f7d1f51b64ceb1a4e}
+This is actually an abstract method defined by Thread. It is called when the thread is started by calling the Thread.\+start() method. In this case, the \hyperlink{class_system_b_1_1_filter_framework_af2b50769cc9a468f7d1f51b64ceb1a4e}{run()} method should be overridden by the filter programmer using this framework superclass \hypertarget{class_system_b_1_1_filter_framework_afa14d2ab9f4041b5be320ddc5ee7d08b}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!set\+Input\+Type@{set\+Input\+Type}}
+\index{set\+Input\+Type@{set\+Input\+Type}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{set\+Input\+Type}]{\setlength{\rightskip}{0pt plus 5cm}void System\+B.\+Filter\+Framework.\+set\+Input\+Type (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_b_1_1_filter_framework_afa14d2ab9f4041b5be320ddc5ee7d08b}
+The method used to set the object\textquotesingle{}s input codes 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_system_b_1_1_filter_framework_afa14d2ab9f4041b5be320ddc5ee7d08b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_system_b_1_1_filter_framework_aef76734b8963d3bf5284f77200bfce08}{}\index{System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}!validate\+Converted\+Codes@{validate\+Converted\+Codes}}
+\index{validate\+Converted\+Codes@{validate\+Converted\+Codes}!System\+B\+::\+Filter\+Framework@{System\+B\+::\+Filter\+Framework}}
+\subsubsection[{validate\+Converted\+Codes}]{\setlength{\rightskip}{0pt plus 5cm}void System\+B.\+Filter\+Framework.\+validate\+Converted\+Codes (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{Codes}
+\end{DoxyParamCaption}
+) throws I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_system_b_1_1_filter_framework_aef76734b8963d3bf5284f77200bfce08}
+The method that validates the codes provided with the object\textquotesingle{}s input codes. Every filter being connected to is passed a set of input codes that are then validated using this method. If there are discrepancies, the method throws an exception. This is similar to how Acme\+Studios would raise an error if the codes do not match for filter pipes. 
+\begin{DoxyParams}{Parameters}
+{\em Codes} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\+O\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+System\+B/Filter\+Framework.\+java\end{DoxyCompactItemize}

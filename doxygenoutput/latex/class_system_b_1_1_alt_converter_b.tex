@@ -1,0 +1,82 @@
+\hypertarget{class_system_b_1_1_alt_converter_b}{}\section{System\+B.\+Alt\+Converter\+B Class Reference}
+\label{class_system_b_1_1_alt_converter_b}\index{System\+B.\+Alt\+Converter\+B@{System\+B.\+Alt\+Converter\+B}}
+
+
+Inheritance diagram for System\+B.\+Alt\+Converter\+B\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_system_b_1_1_alt_converter_b__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for System\+B.\+Alt\+Converter\+B\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_system_b_1_1_alt_converter_b__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_system_b_1_1_alt_converter_b_aca43db525abdf670537b6c9471af9edc}{Alt\+Converter\+B} (Hash\+Set$<$ Integer $>$ codes\+Set)
+\item 
+void \hyperlink{class_system_b_1_1_alt_converter_b_a1261dcc038c9b9264a87403b9f981c02}{run} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+This is one of the converter filters for System\+A, it takes altitude data and converts from feet to meters, writing the data to the downstream. \begin{DoxyAuthor}{Author}
+ligu 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_system_b_1_1_alt_converter_b_aca43db525abdf670537b6c9471af9edc}{}\index{System\+B\+::\+Alt\+Converter\+B@{System\+B\+::\+Alt\+Converter\+B}!Alt\+Converter\+B@{Alt\+Converter\+B}}
+\index{Alt\+Converter\+B@{Alt\+Converter\+B}!System\+B\+::\+Alt\+Converter\+B@{System\+B\+::\+Alt\+Converter\+B}}
+\subsubsection[{Alt\+Converter\+B}]{\setlength{\rightskip}{0pt plus 5cm}System\+B.\+Alt\+Converter\+B.\+Alt\+Converter\+B (
+\begin{DoxyParamCaption}
+\item[{Hash\+Set$<$ Integer $>$}]{codes\+Set}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_alt_converter_b_aca43db525abdf670537b6c9471af9edc}
+Overload the super class constructor 
+\begin{DoxyParams}{Parameters}
+{\em codes\+Set} & \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_system_b_1_1_alt_converter_b_aca43db525abdf670537b6c9471af9edc_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_system_b_1_1_alt_converter_b_a1261dcc038c9b9264a87403b9f981c02}{}\index{System\+B\+::\+Alt\+Converter\+B@{System\+B\+::\+Alt\+Converter\+B}!run@{run}}
+\index{run@{run}!System\+B\+::\+Alt\+Converter\+B@{System\+B\+::\+Alt\+Converter\+B}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void System\+B.\+Alt\+Converter\+B.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_system_b_1_1_alt_converter_b_a1261dcc038c9b9264a87403b9f981c02}
+Starts off the filter operation Similar to other filters, we read the 4 bytes of I\+D.
+
+If the id is 0, we have time data to write to the output
+
+If the id is 2, we have altitude data. We can simply convert the double from feet to meters Then we fill the measurements byte array with 8 bytes of the altitude in meters so we can write downstream.
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+System\+B/Alt\+Converter\+B.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,9 @@
+<map id="SystemB.FilterFramework.setInputType" name="SystemB.FilterFramework.setInputType">
+<area shape="rect" id="node2" href="$class_system_b_1_1_filter_framework.html#ab125a0cf88badca1a24b2cb08b9094a9" title="SystemB.FilterFramework.\lFilterFramework" alt="" coords="269,5,448,43"/>
+<area shape="rect" id="node3" href="$class_system_b_1_1_alt_converter_b.html#aca43db525abdf670537b6c9471af9edc" title="SystemB.AltConverterB.Alt\lConverterB" alt="" coords="268,67,449,106"/>
+<area shape="rect" id="node4" href="$class_system_b_1_1_merge_filter_b.html#a63a9b515974c72eed2f4611557d85e85" title="SystemB.MergeFilterB.Merge\lFilterB" alt="" coords="261,130,457,169"/>
+<area shape="rect" id="node5" href="$class_system_b_1_1_pres_filter_b.html#ae6ccf5e92254b7b6c0763d06500c9f19" title="SystemB.PresFilterB.Pres\lFilterB" alt="" coords="271,193,446,231"/>
+<area shape="rect" id="node6" href="$class_system_b_1_1_source_filter_b.html#a99e8b2768aee7990e5440ff1822bc5f9" title="SystemB.SourceFilterB.Source\lFilterB" alt="" coords="256,255,461,294"/>
+<area shape="rect" id="node7" href="$class_system_b_1_1_splitter_filter_b.html#a96c6f849d2f9702cfe12ea9cedd247c5" title="SystemB.SplitterFilterB.\lSplitterFilterB" alt="" coords="278,318,440,357"/>
+<area shape="rect" id="node8" href="$class_system_b_1_1_temp_converter_b.html#a6d4adae935c6fbf07515d65f8a316f2d" title="SystemB.TempConverterB.Temp\lConverterB" alt="" coords="251,381,466,419"/>
+</map>
